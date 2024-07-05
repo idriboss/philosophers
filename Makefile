@@ -26,6 +26,11 @@ SRC_PATH = .
 
 FILES =		parse.c		\
 			main.c		\
+			utils.c		\
+			routine.c	\
+			lst_utils.c	\
+			init.c		\
+			error.c		\
 
 all	: $(NAME)
 

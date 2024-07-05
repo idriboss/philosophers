@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"philo.h": "c"
+	},
+	"cSpell.words": [
+		"lstclear"
+	]
+}

@@ -1,5 +1,7 @@
 #include "philo.h"
 
+int		ft_putendl_fd(const char *s, int fd);
+
 void	print_err_and_exit(char *err, int exit_status)
 {
 	if (err != NULL)
