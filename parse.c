@@ -1,9 +1,7 @@
 #include "philo.h"
 
-void	parse(char *argv, t_data *data)
+void	parse(char **argv, t_data *data)
 {
-	long int	**args;
-
 	data->philos_number = ft_atol(argv[1], data);
 	if (data->philos_number < 1)
 		free_and_exit("Error: bad inputs", EXIT_FAILURE, data);
@@ -14,5 +12,4 @@ void	parse(char *argv, t_data *data)
 		data->must_eat = ft_atol(argv[5], data);
 	else
 		data->must_eat = -1;
-
 }

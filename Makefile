@@ -10,19 +10,13 @@ END= 	$(shell tput -Txterm sgr0)
 
 #			#
 
-NAME = ../checker
+NAME = philo
 
 CC = cc
 
-FLAGS = -Wall -Werror -Wextra -pthread -g3
+FLAGS = -Wall -Werror -Wextra -pthread
 
-LIBFT_PATH = ./libft/
-
-LIBFT = libft.a
-
-LIBFT_FILES = $(LIBFT_PATH)*.c
-
-SRC_PATH = .
+LIBS = philo.h
 
 FILES =		parse.c		\
 			main.c		\
@@ -31,12 +25,21 @@ FILES =		parse.c		\
 			lst_utils.c	\
 			init.c		\
 			error.c		\
+			utils2.c	\
 
-all	: $(NAME)
+OBJ_DIR = objs/
 
-$(NAME) : $(LIBFT) $(FILES)
-		@$(CC) $(FLAGS) $(FILES) $(LIBFT_PATH)$(LIBFT) -o $(NAME)
-		@echo "$(GREEN)checker done ! ✅$(END)"
+OBJ = $(FILES:.c=.o)
 
-$(LIBFT) : $(LIBFT_FILES)
-		@make -C $(LIBFT_PATH)
+OBJ_PREFIXED = $(addprefix $(OBJ_DIR), $(OBJ))
+
+all	: Makefile $(NAME)
+
+$(NAME) : $(OBJ_PREFIXED)
+		@$(CC) $(FLAGS) $(OBJ_PREFIXED) -o $(NAME)
+		@echo "$(GREEN)$(NAME) done ! ✅$(END)"
+
+$(OBJ_DIR)%.o : %.c $(LIBS)
+		@mkdir -p $(OBJ_DIR)
+		@echo "$(BLUE)Compiling: $^$(END)"
+		@$(CC) $(FLAGS) -c $< -o $@

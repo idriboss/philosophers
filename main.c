@@ -15,13 +15,17 @@ int	main(int argc, char **argv)
 int	start_threads(t_data *data)
 {
 	t_philo			*philo;
+	struct timeval	time;
 	int	i;
 
 	i = 0;
 	philo = data->first_philo;
+	if (gettimeofday(&time, NULL) == -1)
+		return (EXIT_FAILURE);
+	data->start_time = time.tv_sec * 1000000 + time.tv_usec;
 	while (i < data->philos_number)
 	{
-		pthread_create(philo->thread, NULL, &philo_routine, &philo);
+		pthread_create(philo->thread, NULL, routine, &philo);
 		philo = philo->next;
 		++i;
 	}

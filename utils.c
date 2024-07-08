@@ -53,30 +53,39 @@ int	ft_putendl_fd(const char *s, int fd)
 	return (check);
 }
 
-int	ft_sleep(long long int milliseconds)
+int	ft_usleep(long int milliseconds, t_philo *philo)
 {
-	struct timeval	start;
-	long long int	current;
+	struct timeval	start_time;
+	long int	current;
+	long int	start;
 
-	if (gettimeofday(&start, NULL) == -1)
-		return (0);
-	current = get_time();
-	if (current == 0)
+	if (gettimeofday(&start_time, NULL) == -1)
 		return (EXIT_FAILURE);
-	while (current - (long long)(start.tv_sec * 1000000 +
-		start.tv_usec) < milliseconds * 1000)
+	start = start_time.tv_sec * 1000000 + start_time.tv_usec;
+	current = get_time(philo->data);
+	if (current == -1)
+		return (EXIT_FAILURE);
+	while (current - start < milliseconds * 1000)
 	{
+		current = get_time(philo->data);
+		if (current == -1)
+			return (EXIT_FAILURE);
+		if (current > philo->last_eat + philo->data->time_to_die)
+		{
+			ft_die(philo);
+			return (EXIT_FAILURE);
+		}
 		if (usleep(10) == -1)
 			return (EXIT_FAILURE);
 	}
-	
+	return (EXIT_SUCCESS);
 }
 
-long long int	get_time(void)
+long int	get_time(t_data *data)
 {
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
-		return (EXIT_FAILURE);
-	return (time.tv_sec * 1000000 + time.tv_usec);
+		return (-1);
+	return (time.tv_sec * 1000000 + time.tv_usec - data->start_time);
 }
