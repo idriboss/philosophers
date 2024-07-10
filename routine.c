@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 21:22:55 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/10 22:26:08 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/10 22:32:01 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,22 @@ t_philo	*routine(void *philosopher)
 	printf("philo[%d]->dead: %d\n", philo->id, philo->dead);
 	while (philo->dead != true)
 	{
+		if (philo->last_eat - get_time(philo->data) > philo->data->time_to_eat)
+		{
+			ft_die(philo);
+			return (philo);
+		}
 		if (ft_eat(philo) == EXIT_FAILURE)
 			return (philo);
 		if (ft_sleep(philo) == EXIT_FAILURE)
 			return (philo);
 		if (ft_think(philo) == EXIT_FAILURE)
 			return (philo);
+		if (philo->last_eat - get_time(philo->data) > philo->data->time_to_eat)
+		{
+			ft_die(philo);
+			return (philo);
+		}
 	}
 	return (philo);
 }
@@ -123,6 +133,7 @@ int	ft_die(t_philo *philo)
 	time = get_time(philo->data);
 	if (pthread_mutex_lock(philo->data->printf_mutex) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
+	printf("die\n");
 	if (philo->dead == true)
 	{
 		pthread_mutex_unlock(philo->data->printf_mutex);
