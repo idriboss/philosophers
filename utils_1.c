@@ -1,6 +1,6 @@
 #include "philo.h"
 
-long int	ft_atol(const char *str, t_data *data)
+long int	ft_atol(const char *str)
 {
 	int		i;
 	int		sign;
@@ -11,14 +11,14 @@ long int	ft_atol(const char *str, t_data *data)
 	number = 0;
 	
 	if (str[i] < '0' && str[i] > '9')
-		free_and_exit("Error: bad inputs", EXIT_FAILURE, data);
+		return (-1);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		number = number * 10 + (str[i] - '0');
 		i++;
 	}
 	if (str[i] != '\0' && str[i] < '0' && str[i] > '9')
-		free_and_exit("Error: bad inputs", EXIT_FAILURE, data);
+		return (-1);
 	return (number * sign);
 }
 
@@ -75,7 +75,7 @@ int	ft_usleep(long int milliseconds, t_philo *philo)
 			ft_die(philo);
 			return (EXIT_FAILURE);
 		}
-		if (usleep(10) == -1)
+		if (usleep(100) == -1)
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

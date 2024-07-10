@@ -18,14 +18,14 @@ FLAGS = -Wall -Werror -Wextra -pthread
 
 LIBS = philo.h
 
-FILES =		parse.c		\
-			main.c		\
-			utils.c		\
+FILES =		main.c		\
+			utils_1.c	\
+			utils_2.c	\
+			utils_3.c	\
+			parse.c		\
 			routine.c	\
-			lst_utils.c	\
 			init.c		\
 			error.c		\
-			utils2.c	\
 
 OBJ_DIR = objs/
 
@@ -33,13 +33,24 @@ OBJ = $(FILES:.c=.o)
 
 OBJ_PREFIXED = $(addprefix $(OBJ_DIR), $(OBJ))
 
-all	: Makefile $(NAME)
+all	: Makefile $(LIBS) $(NAME)
 
 $(NAME) : $(OBJ_PREFIXED)
 		@$(CC) $(FLAGS) $(OBJ_PREFIXED) -o $(NAME)
 		@echo "$(GREEN)$(NAME) done ! ✅$(END)"
 
-$(OBJ_DIR)%.o : %.c $(LIBS)
+$(OBJ_DIR)%.o : %.c
 		@mkdir -p $(OBJ_DIR)
 		@echo "$(BLUE)Compiling: $^$(END)"
 		@$(CC) $(FLAGS) -c $< -o $@
+clean :
+	@rm -rf $(OBJ_DIR)
+	@echo "$(RED)objects removed$(END)"
+
+fclean : clean
+	@rm -f $(NAME)
+	@echo "$(RED)$(NAME) removed$(END)"
+
+re : fclean all
+
+.PHONY: all re clean fclean

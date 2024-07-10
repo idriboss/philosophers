@@ -9,8 +9,12 @@ void	print_err_and_exit(char *err, int exit_status)
 	exit(exit_status);
 }
 
-void	free_and_exit(char *err, int exit_status, t_data *data)
+int	error(char *err, int exit_status)
 {
-	free(data);
-	print_err_and_exit(err, exit_status);
+	if (err != NULL)
+	{
+		if (printf("%s\n", err) == -1)
+			return (EXIT_FAILURE);
+	}
+	return (exit_status);
 }

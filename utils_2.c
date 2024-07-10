@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:48 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/08 23:05:44 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/10 22:17:18 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	ft_lstclear(t_philo **lst)
 	while (elm)
 	{
 		tmp = elm->next;
-		pthread_mutex_destroy(elm->fork_mutex);
+		pthread_mutex_destroy(elm->fork);
+		free(elm->fork);
 		free(elm);
 		elm = tmp;
 	}
@@ -53,8 +54,8 @@ int	take_fork(t_philo *philo, pthread_mutex_t *fork)
 		return (EXIT_FAILURE);
 	if (philo->dead == true)
 		return (EXIT_FAILURE);
-	if (printf("[%lli]	%d  has taken a fork\n", get_time(philo->data), philo->id + 1)
-		== -1)
+	if (printf("[%li]	%d  has taken a fork\n", get_time(philo->data),
+				philo->id + 1) == -1)
 		return (EXIT_FAILURE);
 	if (pthread_mutex_unlock(philo->data->printf_mutex) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
