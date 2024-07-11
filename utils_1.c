@@ -52,7 +52,7 @@ int	ft_putendl_fd(const char *s, int fd)
 	check++;
 	return (check);
 }
-
+/*
 int	ft_usleep(long int milliseconds, t_philo *philo)
 {
 	struct timeval	start_time;
@@ -79,7 +79,7 @@ int	ft_usleep(long int milliseconds, t_philo *philo)
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
-}
+}*/
 
 long int	get_time(t_data *data)
 {

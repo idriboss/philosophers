@@ -26,14 +26,13 @@ int	start_threads(t_data *data)
 	int	i;
 
 	i = 0;
-	philo = data->first_philo;
+	philo = data->philos;
 	if (gettimeofday(&time, NULL) == -1)
 		return (EXIT_FAILURE);
 	data->start_time = time.tv_sec * 1000000 + time.tv_usec;
 	while (i < data->philos_number)
 	{
-		pthread_create(philo->thread, NULL, (void *)routine, philo);
-		philo = philo->next;
+		pthread_create(&philo[i].thread, NULL, (void *)routine, &philo[i]);
 		++i;
 	}
 	if (wait_threads(data) == EXIT_FAILURE)
@@ -44,22 +43,15 @@ int	start_threads(t_data *data)
 int	wait_threads(t_data *data)
 {
 	t_philo	*philo;
-	t_philo	*temp;
 	int		i;
-	// int		*temp;
 	int		status;
 
-	philo = data->first_philo;
+	philo = data->philos;
 	i = 0;
 	status = EXIT_SUCCESS;
 	while (i < data->philos_number)
 	{
-		pthread_join(*philo->thread, NULL);
-		// if (*temp == EXIT_FAILURE)
-		// 	status = EXIT_FAILURE;
-		temp = philo;
-		philo = philo->next;
-		free(temp);
+		pthread_join(philo[i].thread, NULL);
 		++i;
 	}
 	return (status);
