@@ -6,14 +6,14 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 21:22:55 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/11 21:21:56 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/11 23:42:57 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	ft_think(t_philo *philo);
-static int	ft_sleep(t_philo *philo);
+// static int	ft_think(t_philo *philo);
+// static int	ft_sleep(t_philo *philo);
 static int	ft_eat(t_philo *philo);
 
 t_philo	*routine(void *philosopher)
@@ -96,8 +96,8 @@ static int	ft_eat(t_philo *philo)
 	drop_fork(philo);
 	return (EXIT_SUCCESS);
 }
-/*
-int	ft_die(t_philo *philo)
+
+/*int	ft_die(t_philo *philo)
 {
 	long int	time;
 
@@ -117,5 +117,4 @@ int	ft_die(t_philo *philo)
 		return (EXIT_FAILURE);
 	kill_all_philos(philo);
 	return (EXIT_SUCCESS);
-}
-*/
+}*/

@@ -87,5 +87,5 @@ long int	get_time(t_data *data)
 
 	if (gettimeofday(&time, NULL) == -1)
 		return (-1);
-	return (time.tv_sec * 1000000 + time.tv_usec - data->start_time);
+	return ((time.tv_sec * 1000000 + time.tv_usec - data->start_time) / 1000);
 }

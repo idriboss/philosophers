@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:54:37 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/11 21:06:23 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/11 23:44:49 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	init_data(t_data *data)
 {
 	if (pthread_mutex_init(&data->printf_mutex, NULL) != EXIT_SUCCESS)
 		return (pthread_mutex_destroy(&data->printf_mutex), EXIT_FAILURE);
+	if (pthread_mutex_init(&data->check_dead_mutex, NULL) != EXIT_SUCCESS)
+		return (pthread_mutex_destroy(&data->check_dead_mutex), EXIT_FAILURE);
 	if (init_philos(data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
