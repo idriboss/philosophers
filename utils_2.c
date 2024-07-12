@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:48 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/12 02:08:34 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/12 11:51:04 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,21 @@
 bool	dead_check(t_philo *philo)
 {
 	long int	time_without_eat;
+	bool		*check_dead;
 	
-	if (get_dead(philo) == true)
-		return (true);
 	time_without_eat = get_time(philo) - philo->last_eat;
+	check_dead = &philo->data->check_dead;
+	pthread_mutex_lock(&philo->data->check_dead_mutex);
+	if (*check_dead == true)
+		return (pthread_mutex_unlock(&philo->data->check_dead_mutex), true);
 	if (time_without_eat >= philo->data->time_to_die)
 	{
-		set_dead(philo);
+		*check_dead = true;
+		printf("%li	%i	died\n", get_time(philo), philo->id + 1);
+		pthread_mutex_unlock(&philo->data->check_dead_mutex);
 		return (true);
 	}
+	pthread_mutex_unlock(&philo->data->check_dead_mutex);
 	return (false);
 }
 
@@ -66,7 +72,11 @@ void	mutex_printf(char *str, long int time, t_philo *philo)
 	pthread_mutex_t	*printf_mutex;
 
 	printf_mutex = &philo->data->printf_mutex;
+	if (dead_check(philo) == true)
+			return ;
 	pthread_mutex_lock(printf_mutex);
+	if (dead_check(philo) == true)
+			return ;
 	printf("%li	%i	%s\n", time, philo->id + 1, str);
 	pthread_mutex_unlock(printf_mutex);
 }

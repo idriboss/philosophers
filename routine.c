@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 21:22:55 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/12 03:01:50 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/12 11:48:06 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_philo	*routine(void *philosopher)
 	// if ((philo->id + 1) % 2 != 0)
 	// 	ft_usleep(20, philo);
 	// printf("philo[%d]->dead: %d\n", philo->id, philo->dead);
-	while (philo->dead != true)
+	while (philo->data->check_dead != true)
 	{
 		if (ft_eat(philo) == EXIT_FAILURE)
 			return (philo);

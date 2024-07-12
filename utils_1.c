@@ -71,6 +71,8 @@ int	ft_usleep(long int milliseconds, t_philo *philo)
 		if (gettimeofday(&time, NULL) == -1)
 			return (EXIT_FAILURE);
 		temp = (time.tv_sec * 1000000 + time.tv_usec);
+		if (dead_check(philo) == true)
+			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }

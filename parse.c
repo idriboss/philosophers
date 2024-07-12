@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:52:35 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/11 20:06:15 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/12 11:04:31 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	parse(char **argv, t_data *data)
 	data->philos_number = ft_atol(argv[1]);
 	if (data->philos_number < 1)
 		return (error("Error: number of philosophers", EXIT_FAILURE));
-	data->time_to_die = ft_atol(argv[2]) * 1000;
+	data->time_to_die = ft_atol(argv[2]);
 	if (data->time_to_die == -1)
 		return (error("Error: time to die", EXIT_FAILURE));
 	data->time_to_eat = ft_atol(argv[3]) * 1000;
