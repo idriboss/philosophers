@@ -53,7 +53,7 @@ int	ft_putendl_fd(const char *s, int fd)
 	return (check);
 }
 
-int	ft_usleep(long int milliseconds, t_philo *philo)
+int	ft_usleep(long int microseconds, t_philo *philo)
 {
 	long int	start;
 	long int	temp;
@@ -66,7 +66,7 @@ int	ft_usleep(long int milliseconds, t_philo *philo)
 	start = (time.tv_sec * 1000000 + time.tv_usec);
 	if (start == -1)
 		return (EXIT_FAILURE);
-	while ((temp - start) < milliseconds)
+	while ((temp - start) < microseconds)
 	{
 		if (gettimeofday(&time, NULL) == -1)
 			return (EXIT_FAILURE);
@@ -83,5 +83,5 @@ long int	get_time(t_philo *philo)
 
 	if (gettimeofday(&time, NULL) == -1)
 		return (-1);
-	return ((time.tv_sec * 1000000 + time.tv_usec - philo->data->start_time) / 1000);
+	return ((time.tv_sec * 1000000 + time.tv_usec - philo->data->start_time));
 }

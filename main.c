@@ -30,11 +30,13 @@ int	start_threads(t_data *data)
 	if (gettimeofday(&time, NULL) == -1)
 		return (EXIT_FAILURE);
 	data->start_time = time.tv_sec * 1000000 + time.tv_usec;
+	pthread_mutex_lock(&data->check_dead_mutex);
 	while (i < data->philos_number)
 	{
 		pthread_create(&philo[i].thread, NULL, (void *)routine, &philo[i]);
 		++i;
 	}
+	pthread_mutex_unlock(&data->check_dead_mutex);
 	if (wait_threads(data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
