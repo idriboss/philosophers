@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 07:54:59 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/11 23:43:38 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/12 02:58:08 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ int					error(char *err, int exit_status);
 int					init_data(t_data *data);
 int					parse(char **argv, t_data *data);
 void				ft_lstclear(t_philo **lst);
-int					ft_usleep(long int milliseconds, t_philo *philo);
-long int			get_time(t_data *data);
+int					ft_usleep(long int time, t_philo *philo);
+long int			get_time(t_philo *philo);
 t_philo				*routine(void *philo);
 int					take_fork(t_philo *philo);
 int					drop_fork(t_philo *philo);
@@ -74,6 +74,7 @@ void				kill_all_philos(t_philo *philo);
 int					ft_die(t_philo *philo);
 bool				get_dead(t_philo *philo);
 void				set_dead(t_philo *philo);
-int					mutex_printf(char *str, long int time, t_philo *philo);
+void				mutex_printf(char *str, long int time, t_philo *philo);
+bool				dead_check(t_philo *philo);
 
 #endif

@@ -52,40 +52,34 @@ int	ft_putendl_fd(const char *s, int fd)
 	check++;
 	return (check);
 }
-/*
+
 int	ft_usleep(long int milliseconds, t_philo *philo)
 {
-	struct timeval	start_time;
-	long int	current;
 	long int	start;
+	long int	temp;
+	struct timeval	time;
 
-	if (gettimeofday(&start_time, NULL) == -1)
+	if (gettimeofday(&time, NULL) == -1)
 		return (EXIT_FAILURE);
-	start = start_time.tv_sec * 1000000 + start_time.tv_usec;
-	current = get_time(philo->data);
-	if (current == -1)
+	start = 0;
+	temp = 0;
+	start = (time.tv_sec * 1000000 + time.tv_usec);
+	if (start == -1)
 		return (EXIT_FAILURE);
-	while (current - start < milliseconds * 1000)
+	while ((temp - start) < milliseconds)
 	{
-		current = get_time(philo->data);
-		if (current == -1)
+		if (gettimeofday(&time, NULL) == -1)
 			return (EXIT_FAILURE);
-		if (current > philo->last_eat + philo->data->time_to_die)
-		{
-			ft_die(philo);
-			return (EXIT_FAILURE);
-		}
-		if (usleep(100) == -1)
-			return (EXIT_FAILURE);
+		temp = (time.tv_sec * 1000000 + time.tv_usec);
 	}
 	return (EXIT_SUCCESS);
-}*/
+}
 
-long int	get_time(t_data *data)
+long int	get_time(t_philo *philo)
 {
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
 		return (-1);
-	return ((time.tv_sec * 1000000 + time.tv_usec - data->start_time) / 1000);
+	return ((time.tv_sec * 1000000 + time.tv_usec - philo->data->start_time) / 1000);
 }

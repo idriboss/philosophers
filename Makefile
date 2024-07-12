@@ -14,7 +14,7 @@ NAME = philo
 
 CC = cc
 
-FLAGS = -Wall  -pthread -g3
+FLAGS = -Wall -g3
 
 LIBS = philo.h
 
