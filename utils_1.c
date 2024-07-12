@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_1.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/12 17:44:27 by ibaby             #+#    #+#             */
+/*   Updated: 2024/07/12 17:46:20 by ibaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 long int	ft_atol(const char *str)
@@ -9,7 +21,6 @@ long int	ft_atol(const char *str)
 	i = 0;
 	sign = 1;
 	number = 0;
-	
 	if (str[i] < '0' && str[i] > '9')
 		return (-1);
 	while (str[i] >= '0' && str[i] <= '9')
@@ -55,8 +66,8 @@ int	ft_putendl_fd(const char *s, int fd)
 
 int	ft_usleep(long int microseconds, t_philo *philo)
 {
-	long int	start;
-	long int	temp;
+	long int		start;
+	long int		temp;
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)

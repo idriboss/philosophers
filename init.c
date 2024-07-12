@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:54:37 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/11 23:44:49 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/12 17:44:22 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,3 @@ int	init_data(t_data *data)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
-

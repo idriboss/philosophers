@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:52:35 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/12 12:28:26 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/12 17:45:19 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	parse(char **argv, t_data *data)
 		data->must_eat = ft_atol(argv[5]);
 		if (data->must_eat == -1)
 			return (error("Error: number of times each philosopher must eat",
-				EXIT_FAILURE));
+					EXIT_FAILURE));
 	}
 	else
 		data->must_eat = -1;

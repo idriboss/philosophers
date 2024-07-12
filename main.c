@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/12 17:44:42 by ibaby             #+#    #+#             */
+/*   Updated: 2024/07/12 17:44:54 by ibaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	start_threads(t_data *data);
@@ -23,7 +35,7 @@ int	start_threads(t_data *data)
 {
 	t_philo			*philo;
 	struct timeval	time;
-	int	i;
+	int				i;
 
 	i = 0;
 	philo = data->philos;

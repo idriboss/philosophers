@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:48 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/12 13:02:26 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/12 17:46:34 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	dead_check(t_philo *philo)
 	long int		time_without_eat;
 	pthread_mutex_t	*dead_mutex;
 	bool			*check_dead;
-	
+
 	time_without_eat = get_time(philo) - philo->last_eat;
 	check_dead = &philo->data->check_dead;
 	dead_mutex = &philo->data->check_dead_mutex;
@@ -78,10 +78,10 @@ void	mutex_printf(char *str, long int time, t_philo *philo)
 
 	printf_mutex = &philo->data->printf_mutex;
 	if (dead_check(philo) == true)
-			return ;
+		return ;
 	pthread_mutex_lock(printf_mutex);
 	if (dead_check(philo) == true)
-			return ;
+		return ;
 	printf("%li	%i	%s\n", time / 1000, philo->id + 1, str);
 	pthread_mutex_unlock(printf_mutex);
 }
