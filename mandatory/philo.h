@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 07:54:59 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/13 04:46:42 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/13 11:54:18 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@
 
 typedef struct s_data
 {
-	long int		start_time;
-	struct s_philo	*philos;
 	pthread_mutex_t	printf_mutex;
+	pthread_mutex_t	dead_philo_mutex;
+	struct s_philo	*philos;
+	struct s_philo	*dead_philo;
+	long int		start_time;
 	long int		time_to_die;
 	long int		time_to_eat;
 	long int		time_to_sleep;
@@ -76,5 +78,8 @@ bool				get_dead(t_philo *philo);
 void				set_dead(t_philo *philo);
 int					mutex_printf(char *str, long int time, t_philo *philo);
 bool				dead_check(t_philo *philo);
+void				set_dead_philo(t_philo *philo);
+t_philo				*get_dead_philo(t_philo *philo);
+void				*solo_philo(void *data_arg);
 
 #endif

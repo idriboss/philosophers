@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 21:22:55 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/13 05:01:20 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/13 11:53:57 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ t_philo	*routine(void *philosopher)
 	while (philo->data->check_dead != true)
 	{
 		if (ft_think(philo) == EXIT_FAILURE)
-			return (philo);
+			return (NULL);
 		if (ft_eat(philo) == EXIT_FAILURE)
-			return (philo);
+			return (NULL);
 		if (ft_sleep(philo) == EXIT_FAILURE)
-			return (philo);
+			return (NULL);
 	}
-	return (philo);
+	return (NULL);
 }
 
 static int	ft_think(t_philo *philo)
@@ -77,4 +77,17 @@ static int	ft_eat(t_philo *philo)
 	philo->last_eat += philo->data->time_to_eat;
 	drop_fork(philo);
 	return (EXIT_SUCCESS);
+}
+
+void	*solo_philo(void *data_arg)
+{
+	t_data	*data;
+	t_philo	*philo;
+	
+	data = (t_data *)data_arg;
+	philo = data->philos;
+	pthread_mutex_lock(&philo->fork);
+	while (dead_check(philo) != true)
+		usleep(100);
+	return (NULL);
 }

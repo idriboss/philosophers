@@ -10,46 +10,60 @@ END= 	$(shell tput -Txterm sgr0)
 
 #			#
 
-NAME = philo
+MANDATORY_DIR = mandatory/
 
-CC = cc
+MANDATORY_FILES = 	mandatory/main.c	\
+					mandatory/error.c	\
+					mandatory/init.c	\
+					mandatory/Makefile	\
+					mandatory/parse.c	\
+					mandatory/routine.c	\
+					mandatory/utils_1.c	\
+					mandatory/utils_2.c	\
+					mandatory/utils_3.c	\
+					mandatory/philo.h	\
 
-FLAGS = -Wall -g3
+BONUS_DIR = bonus/
 
-LIBS = philo.h
+all	: mandatory bonus
 
-FILES =		main.c		\
-			utils_1.c	\
-			utils_2.c	\
-			utils_3.c	\
-			parse.c		\
-			routine.c	\
-			init.c		\
-			error.c		\
+mandatory : ./philo $(MANDATORY_DIR)
+	@make -sC $(MANDATORY_DIR)
+	@echo "$(GREEN)philo done ! ✅$(END)"
 
-OBJ_DIR = objs/
+mandatory_clean :
+	@make clean -sC $(MANDATORY_DIR)
 
-OBJ = $(FILES:.c=.o)
+mandatory_fclean :
+	@make fclean -sC $(MANDATORY_DIR)
 
-OBJ_PREFIXED = $(addprefix $(OBJ_DIR), $(OBJ))
+Bonus : ./philo $(BONUS_DIR)
+	@make -sC $(BONUS_DIR)
+	@echo "$(GREEN)philo done ! ✅$(END)"
 
-all	: Makefile $(LIBS) $(NAME)
+bonus_clean :
+	@make clean -sC $(BONUS_DIR)
 
-$(NAME) : $(OBJ_PREFIXED)
-		@$(CC) $(FLAGS) $(OBJ_PREFIXED) -o $(NAME)
-		@echo "$(GREEN)$(NAME) done ! ✅$(END)"
+bonus_fclean :
+	@make fclean -sC $(BONUS_DIR)
 
-$(OBJ_DIR)%.o : %.c
-		@mkdir -p $(OBJ_DIR)
-		@echo "$(BLUE)Compiling: $^$(END)"
-		@$(CC) $(FLAGS) -c $< -o $@
 clean :
-	@rm -rf $(OBJ_DIR)
-	@echo "$(RED)objects removed$(END)"
+	@echo "$(YELLOW)Mandatory:$(END)"
+	@echo ""
+	@make -s mandatory_clean
+	@echo ""
+	@echo "$(YELLOW)Bonus:$(END)"
+	@echo ""
+	@make -s bonus_clean
 
-fclean : clean
-	@rm -f $(NAME)
-	@echo "$(RED)$(NAME) removed$(END)"
+fclean :
+	@echo "$(YELLOW)Mandatory:$(END)"
+	@echo ""
+	@make -s mandatory_fclean
+	@echo ""
+	@echo "$(YELLOW)Bonus:$(END)"
+	@echo ""
+	@make -s bonus_fclean
 
 re : fclean all
 

@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:42 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/13 05:19:59 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/13 11:54:50 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	if (init_data(&data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (start_threads(&data) == -1)
+	if (data.philos_number == 1 && start_solo_philo(&data) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	else if (start_threads(&data) == -1)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
@@ -70,7 +72,9 @@ void	check_philos(t_data *data)
 			pthread_mutex_lock(&philo[i].check_dead_mutex);
 			if (philo[i].dead == true)
 			{
+				pthread_mutex_lock(&philo->data->printf_mutex);
 				kill_all_philos(philo, i);
+				pthread_mutex_unlock(&philo->data->printf_mutex);
 				return ;
 			}
 			pthread_mutex_unlock(&philo[i].check_dead_mutex);
@@ -90,12 +94,14 @@ void	kill_all_philos(t_philo *philo, int index)
 		if (i != index)
 			pthread_mutex_lock(&philo[i].check_dead_mutex);
 	}
-	pthread_mutex_lock(&philo->data->printf_mutex);
-	printf("%li	%d	died\n", philo->last_eat / 1000, philo->id + 1);
-	pthread_mutex_unlock(&philo->data->printf_mutex);
 	i = -1;
 	while (++i < philo_number)
 	{
+		if (&philo[i] == get_dead_philo(philo))
+		{
+			printf("%li	%d	died\n", philo[i].last_eat / 1000,
+				philo[i].id + 1);
+		}
 		philo[i].dead = true;
 	}
 	i = -1;
