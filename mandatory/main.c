@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:42 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/13 11:54:50 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/13 11:57:29 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	if (init_data(&data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (data.philos_number == 1 && start_solo_philo(&data) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+	if (data.philos_number == 1)
+		start_solo_philo(&data);
 	else if (start_threads(&data) == -1)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

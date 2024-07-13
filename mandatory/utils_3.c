@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:33 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/13 11:55:18 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/13 11:58:37 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ t_philo	*get_dead_philo(t_philo *philo)
 	return (dead_philo);
 }
 
-int	start_solo_philo(t_data *data)
+void	start_solo_philo(t_data *data)
 {
-	
+	pthread_create(&data->philos->thread, NULL, solo_philo, data);
+	pthread_join(data->philos->thread, )
 }
