@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 21:22:55 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/16 15:47:16 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/16 23:19:49 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,11 @@ static int	ft_eat(t_philo *philo);
 t_philo	*routine(void *philosopher)
 {
 	t_philo		*philo;
-	long int	time;
 
 	philo = (t_philo *)philosopher;
 	pthread_mutex_lock(&philo->data->printf_mutex);
 	pthread_mutex_unlock(&philo->data->printf_mutex);
-	time = get_time(philo);
-	// if (philo->data->philos_number % 2 == 1)
-	// 	ft_usleep(50, philo);
-	philo->last_eat = time;
+	set_last_eat(philo, get_time(philo));
 	while (philo->data->check_dead != true)
 	{
 		if (ft_think(philo) == EXIT_FAILURE)
@@ -67,17 +63,19 @@ static int	ft_eat(t_philo *philo)
 {
 	long int	time;
 
+	if (philo->data->must_eat != -1 && philo->eat_count >= philo->data->must_eat)
+		return (EXIT_FAILURE);
 	if (take_fork(philo) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	time = get_time(philo);
 	philo->next_sleep = philo->data->time_to_sleep;
-	philo->last_eat = time;
 	if (mutex_printf("is eating", time, philo) == EXIT_FAILURE)
 		return (drop_fork(philo), EXIT_FAILURE);
 	increase_eat_count(philo);
+	set_last_eat(philo, time + philo->data->time_to_eat);
 	if (ft_usleep(philo->data->time_to_eat, philo) == EXIT_FAILURE)
 		return (drop_fork(philo), EXIT_FAILURE);
-	philo->last_eat += philo->data->time_to_eat;
+	// set_last_eat(philo, time + philo->data->time_to_eat);
 	drop_fork(philo);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:42 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/16 16:23:23 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/16 23:06:18 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,16 @@ void	check_philos(t_data *data)
 		while (++i < data->philos_number)
 		{
 			pthread_mutex_lock(&philo[i].check_dead_mutex);
-			if (philo[i].dead == true ||
-				get_time(&philo[i]) - philo[i].last_eat > data->time_to_die)
+			if (get_time(&philo[i]) - get_last_eat(&philo[i])
+				> data->time_to_die)
 			{
-				pthread_mutex_lock(&philo->data->printf_mutex);
-				if (data->dead_philo == NULL)
-					data->dead_philo = &philo[i];
-				kill_all_philos(philo);
-				pthread_mutex_unlock(&philo->data->printf_mutex);
+				set_dead_philo(&philo[i]);
+				kill_all_philos(philo, &philo[i]);
 				return ;
 			}
 			if (data->must_eat != -1 && check_eat(philo) == true)
 			{
-				end_philos(data);
+				end_philos(data, &philo[i]);
 				return ;
 			}
 			pthread_mutex_unlock(&philo[i].check_dead_mutex);
@@ -90,32 +87,31 @@ void	check_philos(t_data *data)
 	}
 }
 
-void	kill_all_philos(t_philo *philo)
+void	kill_all_philos(t_philo *philos, t_philo *dead_philo)
 {
-	int	i;
-	int	philo_number;
+	int		i;
+	int		philo_number;
+	long	time;
 	
-	philo_number = philo->data->philos_number;
+	time = get_time(philos);
+	pthread_mutex_lock(&philos->data->printf_mutex);
+	philo_number = philos->data->philos_number;
 	i = -1;
 	while (++i < philo_number)
 	{
-		pthread_mutex_lock(&philo[i].check_dead_mutex);
+		if (&philos[i] != dead_philo)
+			pthread_mutex_lock(&philos[i].check_dead_mutex);
 	}
-	pthread_mutex_lock(&philo->data->printf_mutex);
+	printf("%li	%d	died\n", time / 1000, dead_philo->id + 1);
 	i = -1;
 	while (++i < philo_number)
 	{
-		if (&philo[i] == get_dead_philo(philo))
-		{
-			printf("%li	%d	died\n", get_time(philo) / 1000,
-				philo[i].id + 1);
-		}
-		philo[i].dead = true;
+		philos[i].dead = true;
 	}
 	i = -1;
-	pthread_mutex_unlock(&philo->data->printf_mutex);
 	while (++i < philo_number)
-		pthread_mutex_unlock(&philo[i].check_dead_mutex);
+		pthread_mutex_unlock(&philos[i].check_dead_mutex);
+	pthread_mutex_unlock(&philos->data->printf_mutex);
 }
 
 int	wait_threads(t_data *data)

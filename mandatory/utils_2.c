@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:48 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/16 16:04:40 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/16 22:56:53 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,8 @@ bool	dead_check(t_philo *philo)
 
 	check_dead = &philo->dead;
 	dead_mutex = &philo->check_dead_mutex;
-	time_without_eat = (get_time(philo) - philo->last_eat);
+	time_without_eat = (get_time(philo) - get_last_eat(philo));
 	pthread_mutex_lock(dead_mutex);
-	// printf("-----------------------------------------------------\n");
-	// printf("philo[%d]: time %li - last eat : %li\n", philo->id + 1,
-	// 		time_without_eat + philo->last_eat, philo->last_eat);
-	// printf("\t=%li\n", time_without_eat);
-	// printf("\t\ttime to die : %li\n", philo->data->time_to_die);
 	if (*check_dead == true)
 	{
 		pthread_mutex_unlock(dead_mutex);
@@ -35,7 +30,7 @@ bool	dead_check(t_philo *philo)
 	if (time_without_eat >= philo->data->time_to_die)
 	{
 		*check_dead = true;
-		philo->last_eat = get_time(philo);
+		set_last_eat(philo, get_time(philo));
 		set_dead_philo(philo);
 		pthread_mutex_unlock(dead_mutex);
 		return (true);
@@ -92,8 +87,6 @@ int	mutex_printf(char *str, long int time, t_philo *philo)
 	pthread_mutex_t	*printf_mutex;
 
 	printf_mutex = &philo->data->printf_mutex;
-	/* if (dead_check(philo) == true)
-		return (EXIT_FAILURE); */
 	pthread_mutex_lock(printf_mutex);
 	if (get_dead(philo) == true)
 		return (pthread_mutex_unlock(printf_mutex), EXIT_FAILURE);

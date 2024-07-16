@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:54:37 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/16 15:44:19 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/16 21:44:40 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	init_philos(t_data *data)
 		pthread_mutex_init(&philos[i].fork, NULL);
 		pthread_mutex_init(&philos[i].check_dead_mutex, NULL);
 		pthread_mutex_init(&philos[i].eat_count_mutex, NULL);
+		pthread_mutex_init(&philos[i].last_eat_mutex, NULL);
 		if (i + 1 != len)
 			philos[i].next_fork = &philos[i + 1].fork;
 		else

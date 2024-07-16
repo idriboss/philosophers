@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 07:54:59 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/16 16:20:21 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/16 23:06:38 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ typedef struct s_philo
 	pthread_mutex_t	fork;
 	pthread_mutex_t	eat_count_mutex;
 	pthread_mutex_t	check_dead_mutex;
-	t_data			*data;
+	pthread_mutex_t	last_eat_mutex;
 	pthread_mutex_t	*next_fork;
+	t_data			*data;
 	long int		last_eat;
 	long int		next_sleep;
 	int				eat_count;
@@ -75,7 +76,6 @@ long int			get_time(t_philo *philo);
 t_philo				*routine(void *philo);
 int					take_fork(t_philo *philo);
 int					drop_fork(t_philo *philo);
-void				kill_all_philos(t_philo *philo);
 int					ft_die(t_philo *philo);
 bool				get_dead(t_philo *philo);
 void				set_dead(t_philo *philo);
@@ -86,8 +86,11 @@ t_philo				*get_dead_philo(t_philo *philo);
 void				start_solo_philo(t_data *data);
 void				*solo_philo(void *data_arg);
 bool				check_eat(t_philo *philo);
-void				end_philos(t_data *data);
+void				end_philos(t_data *data, t_philo *locked_philo);
 void				increase_eat_count(t_philo *philo);
-int				get_eat_count(t_philo *philo);
+int					get_eat_count(t_philo *philo);
+void				kill_all_philos(t_philo *philos, t_philo *dead_philo);
+void				set_last_eat(t_philo *philo, long int time);
+long				get_last_eat(t_philo *philo);
 
 #endif
