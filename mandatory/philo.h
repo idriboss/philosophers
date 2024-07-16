@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 07:54:59 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/13 11:57:06 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/16 13:32:37 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_philo
 	t_data			*data;
 	pthread_mutex_t	*next_fork;
 	long int		last_eat;
+	long int		next_sleep;
 	int				id;
 	bool			dead;
 }					t_philo;

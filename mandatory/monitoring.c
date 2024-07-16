@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   monitoring.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:42 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/13 11:57:29 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/16 14:33:15 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,12 @@ void	check_philos(t_data *data)
 		while (++i < data->philos_number)
 		{
 			pthread_mutex_lock(&philo[i].check_dead_mutex);
-			if (philo[i].dead == true)
+			if (philo[i].dead == true ||
+				get_time(&philo[i]) - philo[i].last_eat > data->time_to_die)
 			{
 				pthread_mutex_lock(&philo->data->printf_mutex);
+				if (data->dead_philo == NULL)
+					data->dead_philo = &philo[i];
 				kill_all_philos(philo, i);
 				pthread_mutex_unlock(&philo->data->printf_mutex);
 				return ;
@@ -99,7 +102,7 @@ void	kill_all_philos(t_philo *philo, int index)
 	{
 		if (&philo[i] == get_dead_philo(philo))
 		{
-			printf("%li	%d	died\n", philo[i].last_eat / 1000,
+			printf("%li	%d	died\n", get_time(philo) / 1000,
 				philo[i].id + 1);
 		}
 		philo[i].dead = true;

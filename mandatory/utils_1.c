@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:27 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/13 03:16:15 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/16 14:08:32 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,21 @@ int	ft_usleep(long int microseconds, t_philo *philo)
 {
 	long int		start;
 	long int		temp;
-	struct timeval	time;
-
-	if (gettimeofday(&time, NULL) == -1)
-		return (EXIT_FAILURE);
-	start = 0;
 	temp = 0;
-	start = (time.tv_sec * 1000000 + time.tv_usec);
+	start = get_time(philo);
 	if (start == -1)
 		return (EXIT_FAILURE);
+	// if (start + microseconds > philo->last_eat + philo->data->time_to_die)
+	// {
+	// 	usleep(start - )
+	// 	pthread_mutex_lock(&philo->check_dead_mutex);
+	// 	philo->dead = true;
+	// 	pthread_mutex_unlock(&philo->check_dead_mutex);
+	// 	set_dead_philo(philo);
+	// }
 	while ((temp - start) < microseconds)
 	{
-		if (gettimeofday(&time, NULL) == -1)
-			return (EXIT_FAILURE);
-		temp = (time.tv_sec * 1000000 + time.tv_usec);
+		temp = get_time(philo);
 		if (dead_check(philo) == true)
 			return (EXIT_FAILURE);
 		usleep(10);

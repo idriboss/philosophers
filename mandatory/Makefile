@@ -18,7 +18,7 @@ FLAGS = -Wall -Wextra -Werror -g3
 
 LIBS = philo.h
 
-FILES =		main.c		\
+FILES =		monitoring.c\
 			utils_1.c	\
 			utils_2.c	\
 			utils_3.c	\
