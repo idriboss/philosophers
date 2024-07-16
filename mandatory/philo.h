@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 07:54:59 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/16 13:32:37 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/16 16:20:21 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ typedef struct s_data
 	long int		time_to_die;
 	long int		time_to_eat;
 	long int		time_to_sleep;
-	int				philos_number;
 	int				must_eat;
+	int				philos_number;
 	int				dead_status;
 	bool			check_dead;
 	bool			check_eat;
@@ -46,11 +46,13 @@ typedef struct s_philo
 {
 	pthread_t		thread;
 	pthread_mutex_t	fork;
+	pthread_mutex_t	eat_count_mutex;
 	pthread_mutex_t	check_dead_mutex;
 	t_data			*data;
 	pthread_mutex_t	*next_fork;
 	long int		last_eat;
 	long int		next_sleep;
+	int				eat_count;
 	int				id;
 	bool			dead;
 }					t_philo;
@@ -73,7 +75,7 @@ long int			get_time(t_philo *philo);
 t_philo				*routine(void *philo);
 int					take_fork(t_philo *philo);
 int					drop_fork(t_philo *philo);
-void				kill_all_philos(t_philo *philo, int index);
+void				kill_all_philos(t_philo *philo);
 int					ft_die(t_philo *philo);
 bool				get_dead(t_philo *philo);
 void				set_dead(t_philo *philo);
@@ -83,5 +85,9 @@ void				set_dead_philo(t_philo *philo);
 t_philo				*get_dead_philo(t_philo *philo);
 void				start_solo_philo(t_data *data);
 void				*solo_philo(void *data_arg);
+bool				check_eat(t_philo *philo);
+void				end_philos(t_data *data);
+void				increase_eat_count(t_philo *philo);
+int				get_eat_count(t_philo *philo);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:42 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/16 14:33:15 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/16 16:23:23 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,13 @@ void	check_philos(t_data *data)
 				pthread_mutex_lock(&philo->data->printf_mutex);
 				if (data->dead_philo == NULL)
 					data->dead_philo = &philo[i];
-				kill_all_philos(philo, i);
+				kill_all_philos(philo);
 				pthread_mutex_unlock(&philo->data->printf_mutex);
+				return ;
+			}
+			if (data->must_eat != -1 && check_eat(philo) == true)
+			{
+				end_philos(data);
 				return ;
 			}
 			pthread_mutex_unlock(&philo[i].check_dead_mutex);
@@ -85,7 +90,7 @@ void	check_philos(t_data *data)
 	}
 }
 
-void	kill_all_philos(t_philo *philo, int index)
+void	kill_all_philos(t_philo *philo)
 {
 	int	i;
 	int	philo_number;
@@ -94,9 +99,9 @@ void	kill_all_philos(t_philo *philo, int index)
 	i = -1;
 	while (++i < philo_number)
 	{
-		if (i != index)
-			pthread_mutex_lock(&philo[i].check_dead_mutex);
+		pthread_mutex_lock(&philo[i].check_dead_mutex);
 	}
+	pthread_mutex_lock(&philo->data->printf_mutex);
 	i = -1;
 	while (++i < philo_number)
 	{
@@ -108,6 +113,7 @@ void	kill_all_philos(t_philo *philo, int index)
 		philo[i].dead = true;
 	}
 	i = -1;
+	pthread_mutex_unlock(&philo->data->printf_mutex);
 	while (++i < philo_number)
 		pthread_mutex_unlock(&philo[i].check_dead_mutex);
 }

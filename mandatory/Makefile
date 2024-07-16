@@ -26,7 +26,8 @@ FILES =		monitoring.c\
 			routine.c	\
 			init.c		\
 			error.c		\
-
+			utils_4.c	\
+			
 OBJ_DIR = objs/
 
 OBJ = $(FILES:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 21:22:55 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/16 13:32:11 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/16 15:47:16 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static int	ft_eat(t_philo *philo)
 	philo->last_eat = time;
 	if (mutex_printf("is eating", time, philo) == EXIT_FAILURE)
 		return (drop_fork(philo), EXIT_FAILURE);
+	increase_eat_count(philo);
 	if (ft_usleep(philo->data->time_to_eat, philo) == EXIT_FAILURE)
 		return (drop_fork(philo), EXIT_FAILURE);
 	philo->last_eat += philo->data->time_to_eat;
@@ -85,11 +86,19 @@ void	*solo_philo(void *data_arg)
 {
 	t_data	*data;
 	t_philo	*philo;
+	long	time;
 	
 	data = (t_data *)data_arg;
 	philo = data->philos;
+	data->start_time = get_time(philo);
+	time = get_time(philo);
 	pthread_mutex_lock(&philo->fork);
-	while (dead_check(philo) != true)
+	mutex_printf("has taken a fork", time, philo);
+	while (time < data->time_to_die)
+	{
+		time = get_time(philo);
 		usleep(100);
+	}
+	mutex_printf("died", time, philo);
 	return (NULL);
 }

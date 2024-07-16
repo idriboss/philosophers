@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:48 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/16 13:29:36 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/16 16:04:40 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ int	mutex_printf(char *str, long int time, t_philo *philo)
 	pthread_mutex_t	*printf_mutex;
 
 	printf_mutex = &philo->data->printf_mutex;
-	if (dead_check(philo) == true)
-		return (EXIT_FAILURE);
+	/* if (dead_check(philo) == true)
+		return (EXIT_FAILURE); */
 	pthread_mutex_lock(printf_mutex);
 	if (get_dead(philo) == true)
 		return (pthread_mutex_unlock(printf_mutex), EXIT_FAILURE);
