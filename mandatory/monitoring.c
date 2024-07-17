@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:42 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/17 15:41:15 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/17 19:51:26 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,29 +69,29 @@ void	check_philos(t_data *data)
 		i = -1;
 		while (++i < data->philos_number)
 		{
-			pthread_mutex_lock(&philo[i].check_dead_mutex);
+			// pthread_mutex_lock(&philo[i].check_dead_mutex);
 			if (get_time(&philo[i]) - get_last_eat(&philo[i])
 				> data->time_to_die)
 			{
 				set_dead_philo(&philo[i]);
 				// printf("[DEBUG: philo[%d]->last eat = %li->time whitout eating = %li]\n",
 				// 	data->dead_philo->id + 1, get_last_eat(philo), get_time(philo) - get_last_eat(philo));
-				kill_all_philos(philo, &philo[i]);
+				kill_all_philos(philo);
 				return ;
 			}
 			if (data->must_eat != -1 && check_eat(philo) == true)
 			{
-				end_philos(data, &philo[i]);
+				end_philos(data);
 				return ;
 			}
 			// printf("[DEBUG: philo[%d]->last eat = %li->time whitout eating = %li]\n",
 			// data->dead_philo->id + 1, get_last_eat(&philo[i]), get_time(philo) - get_last_eat(&philo[i]));
-			pthread_mutex_unlock(&philo[i].check_dead_mutex);
+			// pthread_mutex_unlock(&philo[i].check_dead_mutex);
 		}
 	}
 }
 
-void	kill_all_philos(t_philo *philos, t_philo *dead_philo)
+void	kill_all_philos(t_philo *philos)
 {
 	int		i;
 	int		philo_number;
@@ -103,10 +103,9 @@ void	kill_all_philos(t_philo *philos, t_philo *dead_philo)
 	i = -1;
 	while (++i < philo_number)
 	{
-		if (&philos[i] != dead_philo)
-			pthread_mutex_lock(&philos[i].check_dead_mutex);
+		pthread_mutex_lock(&philos[i].check_dead_mutex);
 	}
-	printf("%li	%d	died\n", time / 1000, dead_philo->id + 1);
+	printf("%li	%d	died\n", time / 1000, get_dead_philo(philos)->id + 1);
 	i = -1;
 	while (++i < philo_number)
 	{

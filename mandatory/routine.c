@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 21:22:55 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/17 15:51:41 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/17 20:19:49 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ static int	ft_sleep(t_philo *philo)
 static int	ft_eat(t_philo *philo)
 {
 	long int	time;
+	long int	time_to_eat;
 
+	time_to_eat = philo->data->time_to_eat;
 	if (philo->data->must_eat != -1 && philo->eat_count >= philo->data->must_eat)
 		return (EXIT_FAILURE);
 	if (take_fork(philo) == EXIT_FAILURE)
@@ -71,9 +73,10 @@ static int	ft_eat(t_philo *philo)
 	if (mutex_printf("is eating", time, philo) == EXIT_FAILURE)
 		return (drop_fork(philo), EXIT_FAILURE);
 	increase_eat_count(philo);
-	if (ft_usleep(philo->data->time_to_eat, philo) == EXIT_FAILURE)
+	// printf("[DEBUG]\n");
+	if (ft_usleep(time_to_eat, philo) == EXIT_FAILURE)
 		return (drop_fork(philo), EXIT_FAILURE);
-	// set_last_eat(philo, time + philo->data->time_to_eat);
+	set_last_eat(philo, time + time_to_eat);
 	drop_fork(philo);
 	return (EXIT_SUCCESS);
 }
@@ -95,6 +98,7 @@ void	*solo_philo(void *data_arg)
 		time = get_time(philo);
 		usleep(100);
 	}
+	pthread_mutex_unlock(&philo->fork);
 	mutex_printf("died", time, philo);
 	return (NULL);
 }

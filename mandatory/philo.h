@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 07:54:59 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/16 23:06:38 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/17 19:50:53 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ t_philo				*get_dead_philo(t_philo *philo);
 void				start_solo_philo(t_data *data);
 void				*solo_philo(void *data_arg);
 bool				check_eat(t_philo *philo);
-void				end_philos(t_data *data, t_philo *locked_philo);
+void				end_philos(t_data *data);
 void				increase_eat_count(t_philo *philo);
 int					get_eat_count(t_philo *philo);
-void				kill_all_philos(t_philo *philos, t_philo *dead_philo);
+void				kill_all_philos(t_philo *philos);
 void				set_last_eat(t_philo *philo, long int time);
 long				get_last_eat(t_philo *philo);
 
