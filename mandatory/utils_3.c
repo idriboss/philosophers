@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:33 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/16 22:29:51 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/17 13:45:02 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	set_dead_philo(t_philo *philo)
 	number_of_calls = 1;
 	pthread_mutex_lock(&philo->data->dead_philo_mutex);
 	philo->data->dead_philo = philo;
-	set_last_eat(philo, get_time(philo));
 	pthread_mutex_unlock(&philo->data->dead_philo_mutex);
 }
 

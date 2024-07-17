@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:42 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/16 23:06:18 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/17 15:41:15 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	check_philos(t_data *data)
 				> data->time_to_die)
 			{
 				set_dead_philo(&philo[i]);
+				// printf("[DEBUG: philo[%d]->last eat = %li->time whitout eating = %li]\n",
+				// 	data->dead_philo->id + 1, get_last_eat(philo), get_time(philo) - get_last_eat(philo));
 				kill_all_philos(philo, &philo[i]);
 				return ;
 			}
@@ -82,6 +84,8 @@ void	check_philos(t_data *data)
 				end_philos(data, &philo[i]);
 				return ;
 			}
+			// printf("[DEBUG: philo[%d]->last eat = %li->time whitout eating = %li]\n",
+			// data->dead_philo->id + 1, get_last_eat(&philo[i]), get_time(philo) - get_last_eat(&philo[i]));
 			pthread_mutex_unlock(&philo[i].check_dead_mutex);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:48 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/16 22:56:53 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/17 15:48:10 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ bool	dead_check(t_philo *philo)
 	if (time_without_eat >= philo->data->time_to_die)
 	{
 		*check_dead = true;
-		set_last_eat(philo, get_time(philo));
 		set_dead_philo(philo);
 		pthread_mutex_unlock(dead_mutex);
 		return (true);
@@ -41,8 +40,7 @@ bool	dead_check(t_philo *philo)
 
 int	take_fork(t_philo *philo)
 {
-	if ((philo->data->philos_number % 2 == 0 && philo->id % 2 == 0)
-		|| (philo->data->philos_number % 2 == 1 && philo->id % 3 == 0))
+	if (philo->data->philos_number % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->fork);
 		if (mutex_printf("has taken a fork", get_time(philo),
