@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 21:22:55 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/16 23:19:49 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/17 13:08:36 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ static int	ft_eat(t_philo *philo)
 	philo->next_sleep = philo->data->time_to_sleep;
 	if (mutex_printf("is eating", time, philo) == EXIT_FAILURE)
 		return (drop_fork(philo), EXIT_FAILURE);
-	increase_eat_count(philo);
 	set_last_eat(philo, time + philo->data->time_to_eat);
+	increase_eat_count(philo);
 	if (ft_usleep(philo->data->time_to_eat, philo) == EXIT_FAILURE)
 		return (drop_fork(philo), EXIT_FAILURE);
 	// set_last_eat(philo, time + philo->data->time_to_eat);
