@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:42 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/17 21:24:34 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/19 16:05:39 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ bool	check_philos(t_data *data)
 				pthread_mutex_lock(&philo[i].check_dead_mutex);
 				return (end_philos(data, &philo[i]), true);
 			}
+			usleep(5);
 		}
 	}
 }

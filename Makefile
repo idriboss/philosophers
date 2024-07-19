@@ -10,61 +10,82 @@ END= 	$(shell tput -Txterm sgr0)
 
 #			#
 
+MANDATORY = philo
+
 MANDATORY_DIR = mandatory/
 
-MANDATORY_FILES = 	mandatory/main.c	\
-					mandatory/error.c	\
-					mandatory/init.c	\
-					mandatory/Makefile	\
-					mandatory/parse.c	\
-					mandatory/routine.c	\
-					mandatory/utils_1.c	\
-					mandatory/utils_2.c	\
-					mandatory/utils_3.c	\
-					mandatory/philo.h	\
+MANDATORY_FILES = 	mandatory/monitoring.c	\
+					mandatory/error.c		\
+					mandatory/init.c		\
+					mandatory/Makefile		\
+					mandatory/parse.c		\
+					mandatory/routine.c		\
+					mandatory/utils_1.c		\
+					mandatory/utils_2.c		\
+					mandatory/utils_3.c		\
+					mandatory/utils_4.c		\
+					mandatory/philo.h		\
+
+BONUS = philo_bonus
 
 BONUS_DIR = bonus/
 
-all	: mandatory bonus
+BONUS_FILES = 		bonus/monitoring.c	\
+					bonus/error.c		\
+					bonus/init.c		\
+					bonus/Makefile		\
+					bonus/parse.c		\
+					bonus/routine.c		\
+					bonus/utils_1.c		\
+					bonus/utils_2.c		\
+					bonus/utils_3.c		\
+					bonus/utils_4.c		\
+					bonus/philo.h		\
 
-mandatory : ./philo $(MANDATORY_DIR)
+all	: $(MANDATORY) $(BONUS)
+
+$(MANDATORY) :
+	@echo "$(YELLOW)Mandatory:$(END)"
+	@echo ""
 	@make -sC $(MANDATORY_DIR)
-	@echo "$(GREEN)philo done ! ✅$(END)"
+	@echo "$(GREEN)$(MANDATORY) done ! ✅$(END)"
+	@echo ""
 
-mandatory_clean :
-	@make clean -sC $(MANDATORY_DIR)
-
-mandatory_fclean :
-	@make fclean -sC $(MANDATORY_DIR)
-
-Bonus : ./philo $(BONUS_DIR)
+$(BONUS) :
+	@echo "$(YELLOW)Bonus:$(END)"
+	@echo ""
 	@make -sC $(BONUS_DIR)
-	@echo "$(GREEN)philo done ! ✅$(END)"
-
-bonus_clean :
-	@make clean -sC $(BONUS_DIR)
-
-bonus_fclean :
-	@make fclean -sC $(BONUS_DIR)
+	@echo "$(GREEN)$(BONUS) done ! ✅$(END)"
+	@echo ""
 
 clean :
 	@echo "$(YELLOW)Mandatory:$(END)"
 	@echo ""
-	@make -s mandatory_clean
+	@make clean -sC $(MANDATORY_DIR)
 	@echo ""
 	@echo "$(YELLOW)Bonus:$(END)"
 	@echo ""
-	@make -s bonus_clean
+	@make clean -sC $(BONUS_DIR)
+	@echo ""
 
 fclean :
 	@echo "$(YELLOW)Mandatory:$(END)"
 	@echo ""
-	@make -s mandatory_fclean
+	@make fclean -sC $(MANDATORY_DIR)
 	@echo ""
 	@echo "$(YELLOW)Bonus:$(END)"
 	@echo ""
-	@make -s bonus_fclean
+	@make fclean -sC $(BONUS_DIR)
+	@echo ""
 
-re : fclean all
+re :
+	@echo "$(YELLOW)Mandatory:$(END)"
+	@echo ""
+	@make re -sC $(MANDATORY_DIR)
+	@echo ""
+	@echo "$(YELLOW)Bonus:$(END)"
+	@echo ""
+	@make re -sC $(BONUS_DIR)
+	@echo ""
 
 .PHONY: all re clean fclean
