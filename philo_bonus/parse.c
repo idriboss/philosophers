@@ -6,11 +6,11 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:52:35 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/17 21:13:43 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/19 20:55:32 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int	parse(char **argv, t_data *data)
 {

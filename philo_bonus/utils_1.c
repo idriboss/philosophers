@@ -6,11 +6,11 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:27 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/17 21:26:06 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/19 22:04:56 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 long int	ft_atol(const char *str)
 {
@@ -83,11 +83,11 @@ int	ft_usleep(long int microseconds, t_philo *philo)
 	return (EXIT_SUCCESS);
 }
 
-long int	get_time(t_philo *philo)
+long long int	get_time(t_data *data)
 {
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
 		return (-1);
-	return ((time.tv_sec * 1000000 + time.tv_usec - philo->data->start_time));
+	return (time.tv_sec * 1000000 + time.tv_usec);
 }

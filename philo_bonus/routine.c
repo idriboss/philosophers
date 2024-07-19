@@ -6,48 +6,39 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 21:22:55 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/17 20:54:05 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/19 22:25:55 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
-static int	ft_think(t_philo *philo);
-static int	ft_sleep(t_philo *philo);
-static int	ft_eat(t_philo *philo);
+static void	ft_think(t_data *data);
+static void	ft_sleep(t_data *data);
+static void	ft_eat(t_data *data);
 
-t_philo	*routine(void *philosopher)
+void	routine(t_data *data)
 {
-	t_philo		*philo;
-
-	philo = (t_philo *)philosopher;
-	pthread_mutex_lock(&philo->data->printf_mutex);
-	pthread_mutex_unlock(&philo->data->printf_mutex);
-	if (philo->id % 2 == 1)
-		usleep(500);
-	while (philo->data->check_dead != true)
+	sem_wait(&data->printf_mutex);
+	sem_post(&data->printf_mutex);
+	while (1)
 	{
-		if (ft_think(philo) == EXIT_FAILURE)
-			return (NULL);
-		if (ft_eat(philo) == EXIT_FAILURE)
-			return (NULL);
-		if (ft_sleep(philo) == EXIT_FAILURE)
-			return (NULL);
+		ft_think(data);
+		ft_eat(data);
+		ft_sleep(data);
 	}
-	return (NULL);
 }
 
-static int	ft_think(t_philo *philo)
+static int	ft_think(t_data *data)
 {
 	long int	time;
 
-	time = get_time(philo);
-	if (mutex_printf("is thinking", time, philo) == EXIT_FAILURE)
+	time = get_time(data);
+	if (mutex_printf("is thinking", time, data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-static int	ft_sleep(t_philo *philo)
+static int	ft_sleep(t_data *data)
 {
 	long int	time;
 
@@ -59,7 +50,7 @@ static int	ft_sleep(t_philo *philo)
 	return (EXIT_SUCCESS);
 }
 
-static int	ft_eat(t_philo *philo)
+static int	ft_eat(t_data *data)
 {
 	t_data		*data;
 	long int	time;
@@ -92,14 +83,14 @@ void	*solo_philo(void *data_arg)
 	philo = data->philos;
 	data->start_time = get_time(philo);
 	time = get_time(philo);
-	pthread_mutex_lock(&philo->fork);
+	sem_wait(&philo->fork);
 	mutex_printf("has taken a fork", time, philo);
 	while (time < data->time_to_die)
 	{
 		time = get_time(philo);
 		usleep(100);
 	}
-	pthread_mutex_unlock(&philo->fork);
+	sem_post(&philo->fork);
 	mutex_printf("died", time, philo);
 	return (NULL);
 }

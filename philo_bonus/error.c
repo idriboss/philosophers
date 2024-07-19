@@ -6,11 +6,11 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:14 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/17 20:25:21 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/19 21:54:02 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int		ft_putendl_fd(const char *s, int fd);
 
@@ -41,7 +41,7 @@ void	end_philos(t_data *data, t_philo *locked_philo)
 	while (++i < data->philos_number)
 	{
 		if (&philos[i] != locked_philo)
-			pthread_mutex_lock(&philos[i].check_dead_mutex);
+			sem_wait(&philos[i].check_dead_mutex);
 	}
 	i = -1;
 	while (++i < data->philos_number)
@@ -51,6 +51,6 @@ void	end_philos(t_data *data, t_philo *locked_philo)
 	i = -1;
 	while (++i < data->philos_number)
 	{
-		pthread_mutex_unlock(&philos[i].check_dead_mutex);
+		sem_post(&philos[i].check_dead_mutex);
 	}
 }
