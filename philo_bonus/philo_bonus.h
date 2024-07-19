@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 07:54:59 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/19 22:07:14 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/19 23:43:12 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct s_data
 	sem_t			forks;
 	sem_t			dead_mutex;
 	sem_t			printf_mutex;
+	sem_t			dead_check;
+	sem_t			eat_check;
 	struct s_philo	philo;
 	long int		time_to_die;
 	long int		time_to_eat;
@@ -46,6 +48,7 @@ typedef struct s_philo
 	unsigned long	last_eat;
 	int				eat_count;
 	int				id;
+	bool			is_dead;
 }					t_philo;
 
 long int			ft_atol(const char *str);

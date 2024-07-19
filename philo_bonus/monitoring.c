@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:42 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/19 21:27:00 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/19 23:43:59 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	start_process(t_data *data)
 		}
 		++i;
 	}
+	start_checkers(data);
 	sem_post(&data->printf_mutex);
 	check_philos(data);
 	if (wait_process(data) == EXIT_FAILURE)
@@ -92,3 +93,5 @@ int	wait_process(t_data *data)
 	}
 	return (status);
 }
+
+void	

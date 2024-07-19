@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:48 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/19 23:02:54 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/19 23:37:32 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,18 @@ bool	dead_philo(t_data *data)
 	sem_t		*dead_mutex;
 	bool		*check_dead;
 
-	check_dead = data->philo
+	check_dead = &data->philo.is_dead;
 	time_without_eat = (get_time(data) - get_last_eat(data));
-	if ()
+	if (*check_dead == true)
+	{
+		return (true);
+	}
 	if (time_without_eat >= data->time_to_die)
 	{
 		*check_dead = true;
-		sem_
+		sem_post(data->);
 		return (true);
 	}
-	sem_post(dead_mutex);
 	return (false);
 }
 
