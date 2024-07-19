@@ -6,15 +6,15 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:42 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/17 19:51:26 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/17 21:24:34 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	start_threads(t_data *data);
-int	wait_threads(t_data *data);
-void	check_philos(t_data *data);
+int		start_threads(t_data *data);
+int		wait_threads(t_data *data);
+bool	check_philos(t_data *data);
 
 int	main(int argc, char **argv)
 {
@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 	memset(&data, 0, sizeof(t_data));
 	if (argc != 5 && argc != 6)
 		exit(EXIT_FAILURE);
-	if (parse(argv, &data) == -1)
+	if (parse(argv, &data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (init_data(&data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
@@ -58,52 +58,47 @@ int	start_threads(t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-void	check_philos(t_data *data)
+bool	check_philos(t_data *data)
 {
 	int		i;
 	t_philo	*philo;	
-	
+
 	philo = data->philos;
 	while (1)
 	{
 		i = -1;
 		while (++i < data->philos_number)
 		{
-			// pthread_mutex_lock(&philo[i].check_dead_mutex);
 			if (get_time(&philo[i]) - get_last_eat(&philo[i])
 				> data->time_to_die)
 			{
+				pthread_mutex_lock(&philo->data->printf_mutex);
+				pthread_mutex_lock(&philo[i].check_dead_mutex);
 				set_dead_philo(&philo[i]);
-				// printf("[DEBUG: philo[%d]->last eat = %li->time whitout eating = %li]\n",
-				// 	data->dead_philo->id + 1, get_last_eat(philo), get_time(philo) - get_last_eat(philo));
-				kill_all_philos(philo);
-				return ;
+				return (kill_all_philos(philo, &philo[i]), true);
 			}
 			if (data->must_eat != -1 && check_eat(philo) == true)
 			{
-				end_philos(data);
-				return ;
+				pthread_mutex_lock(&philo[i].check_dead_mutex);
+				return (end_philos(data, &philo[i]), true);
 			}
-			// printf("[DEBUG: philo[%d]->last eat = %li->time whitout eating = %li]\n",
-			// data->dead_philo->id + 1, get_last_eat(&philo[i]), get_time(philo) - get_last_eat(&philo[i]));
-			// pthread_mutex_unlock(&philo[i].check_dead_mutex);
 		}
 	}
 }
 
-void	kill_all_philos(t_philo *philos)
+void	kill_all_philos(t_philo *philos, t_philo *locked_philo)
 {
 	int		i;
 	int		philo_number;
 	long	time;
-	
+
 	time = get_time(philos);
-	pthread_mutex_lock(&philos->data->printf_mutex);
 	philo_number = philos->data->philos_number;
 	i = -1;
 	while (++i < philo_number)
 	{
-		pthread_mutex_lock(&philos[i].check_dead_mutex);
+		if (&philos[i] != locked_philo)
+			pthread_mutex_lock(&philos[i].check_dead_mutex);
 	}
 	printf("%li	%d	died\n", time / 1000, get_dead_philo(philos)->id + 1);
 	i = -1;
@@ -112,9 +107,9 @@ void	kill_all_philos(t_philo *philos)
 		philos[i].dead = true;
 	}
 	i = -1;
+	pthread_mutex_unlock(&philos->data->printf_mutex);
 	while (++i < philo_number)
 		pthread_mutex_unlock(&philos[i].check_dead_mutex);
-	pthread_mutex_unlock(&philos->data->printf_mutex);
 }
 
 int	wait_threads(t_data *data)

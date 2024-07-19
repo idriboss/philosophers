@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:48 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/17 15:48:10 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/17 20:46:11 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,22 @@ int	take_fork(t_philo *philo)
 	{
 		pthread_mutex_lock(&philo->fork);
 		if (mutex_printf("has taken a fork", get_time(philo),
-			philo) == EXIT_FAILURE)
+				philo) == EXIT_FAILURE)
 			return (pthread_mutex_unlock(&philo->fork), EXIT_FAILURE);
 		pthread_mutex_lock(philo->next_fork);
 		if (mutex_printf("has taken a fork", get_time(philo),
-			philo) == EXIT_FAILURE)
+				philo) == EXIT_FAILURE)
 			return (drop_fork(philo), EXIT_FAILURE);
 	}
 	else
 	{
 		pthread_mutex_lock(philo->next_fork);
 		if (mutex_printf("has taken a fork", get_time(philo),
-			philo) == EXIT_FAILURE)
+				philo) == EXIT_FAILURE)
 			return (pthread_mutex_unlock(philo->next_fork), EXIT_FAILURE);
 		pthread_mutex_lock(&philo->fork);
 		if (mutex_printf("has taken a fork", get_time(philo),
-			philo) == EXIT_FAILURE)
+				philo) == EXIT_FAILURE)
 			return (drop_fork(philo), EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -69,13 +69,13 @@ int	drop_fork(t_philo *philo)
 {
 	if (philo->id % 2 == 1)
 	{
-		pthread_mutex_unlock(philo->next_fork);
 		pthread_mutex_unlock(&philo->fork);
+		pthread_mutex_unlock(philo->next_fork);
 	}
 	else
 	{
-		pthread_mutex_unlock(&philo->fork);
 		pthread_mutex_unlock(philo->next_fork);
+		pthread_mutex_unlock(&philo->fork);
 	}
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:27 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/17 19:56:23 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/17 21:26:06 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ long int	ft_atol(const char *str)
 	long	number;
 
 	i = 0;
-	sign = 1;
 	number = 0;
+	sign = 1;
+	if (str[i] == '-')
+		sign = -1;
 	if (str[i] < '0' && str[i] > '9')
 		return (-1);
 	while (str[i] >= '0' && str[i] <= '9')
@@ -28,7 +30,7 @@ long int	ft_atol(const char *str)
 		number = number * 10 + (str[i] - '0');
 		i++;
 	}
-	if (str[i] != '\0' && str[i] < '0' && str[i] > '9')
+	if (str[i] != '\0')
 		return (-1);
 	return (number * sign);
 }
@@ -66,8 +68,9 @@ int	ft_putendl_fd(const char *s, int fd)
 
 int	ft_usleep(long int microseconds, t_philo *philo)
 {
-	long int		start;
-	long int		temp;
+	long int	start;
+	long int	temp;
+
 	temp = 0;
 	start = get_time(philo);
 	if (start == -1)

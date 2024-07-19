@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:33 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/17 13:45:02 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/17 20:46:23 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ bool	get_dead(t_philo *philo)
 	pthread_mutex_unlock(&philo->check_dead_mutex);
 	return (check_dead);
 }
+
 void	set_dead_philo(t_philo *philo)
 {
 	static int	number_of_calls = 0;
