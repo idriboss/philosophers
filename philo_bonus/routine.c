@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 21:22:55 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/19 22:25:55 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/20 20:55:59 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ static void	ft_eat(t_data *data);
 
 void	routine(t_data *data)
 {
-	sem_wait(&data->printf_mutex);
-	sem_post(&data->printf_mutex);
+	fprintf(stderr, "[DEBUG]");
+	sem_wait(data->printf_mutex_p);
+	sem_post(data->printf_mutex_p);
 	while (1)
 	{
 		ft_think(data);
@@ -28,69 +29,44 @@ void	routine(t_data *data)
 	}
 }
 
-static int	ft_think(t_data *data)
+static void	ft_think(t_data *data)
 {
-	long int	time;
+	mutex_printf("is thinking", get_time(data), data);
+}
 
+static void	ft_sleep(t_data *data)
+{
+	mutex_printf("is sleeping", get_time(data), data);
+	ft_usleep(data->time_to_sleep, data);
+}
+
+static void	ft_eat(t_data *data)
+{
+	long long	time;
+	
+	take_fork(data);
+	check_eat(data);
 	time = get_time(data);
-	if (mutex_printf("is thinking", time, data) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	data->philo.last_eat = time;
+	mutex_printf("is eating", time, data);
+	ft_usleep(data->time_to_eat, data);
+	drop_fork(data, 2);
 }
 
-static int	ft_sleep(t_data *data)
+int	mutex_printf(char *str, long long time, t_data *data)
 {
-	long int	time;
+	sem_t	*printf_mutex;
 
-	time = get_time(philo);
-	if (mutex_printf("is sleeping", time, philo) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	if (ft_usleep(philo->data->time_to_sleep, philo) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
-
-static int	ft_eat(t_data *data)
-{
-	t_data		*data;
-	long int	time;
-	long int	time_to_eat;
-
-	data = philo->data;
-	time_to_eat = data->time_to_eat;
-	if (data->must_eat != -1 && philo->eat_count >= data->must_eat)
-		return (EXIT_FAILURE);
-	if (take_fork(philo) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	time = get_time(philo);
-	set_last_eat(philo, time);
-	if (mutex_printf("is eating", time, philo) == EXIT_FAILURE)
-		return (drop_fork(philo), EXIT_FAILURE);
-	increase_eat_count(philo);
-	if (ft_usleep(time_to_eat, philo) == EXIT_FAILURE)
-		return (drop_fork(philo), EXIT_FAILURE);
-	drop_fork(philo);
-	return (EXIT_SUCCESS);
-}
-
-void	*solo_philo(void *data_arg)
-{
-	t_data	*data;
-	t_philo	*philo;
-	long	time;
-
-	data = (t_data *)data_arg;
-	philo = data->philos;
-	data->start_time = get_time(philo);
-	time = get_time(philo);
-	sem_wait(&philo->fork);
-	mutex_printf("has taken a fork", time, philo);
-	while (time < data->time_to_die)
+	printf_mutex = data->printf_mutex_p;
+	sem_wait(printf_mutex);
+	if (dead_philo(data) == true)
+		exit_and_kill(NULL, EXIT_SUCCESS, data);
+	if (printf("%lli	%i	%s\n", time / 1000, data->philo.id + 1, str)
+		== -1)
 	{
-		time = get_time(philo);
-		usleep(100);
+		sem_post(&data->dead_check);
+		exit_and_kill("printf function failed", EXIT_FAILURE, data);
 	}
-	sem_post(&philo->fork);
-	mutex_printf("died", time, philo);
-	return (NULL);
+	sem_post(printf_mutex);
+	return (EXIT_SUCCESS);
 }

@@ -19,14 +19,14 @@ FLAGS = -Wall -Wextra -Werror -g3
 LIBS = philo.h
 
 FILES =		monitoring.c\
-			utils_1.c	\
-			utils_2.c	\
-			utils_3.c	\
+			utils.c	\
 			parse.c		\
 			routine.c	\
+			routine_utils.c	\
 			init.c		\
 			error.c		\
-			utils_4.c	\
+			checkers.c	\
+			solo_philo.c \
 			
 OBJ_DIR = objs/
 
@@ -34,7 +34,7 @@ OBJ = $(FILES:.c=.o)
 
 OBJ_PREFIXED = $(addprefix $(OBJ_DIR), $(OBJ))
 
-all	: Makefile $(LIBS) $(NAME)
+all	: Makefile $(NAME)
 
 $(NAME) : $(OBJ_PREFIXED)
 		@$(CC) $(FLAGS) $(OBJ_PREFIXED) -o $(NAME)

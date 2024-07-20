@@ -6,15 +6,11 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:42 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/19 23:43:59 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/20 20:48:35 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
-int		start_process(t_data *data);
-int		wait_process(t_data *data);
-bool	check_philos(t_data *data);
 
 int	main(int argc, char **argv)
 {
@@ -29,14 +25,11 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	if (data.philos_number == 1)
 		start_solo_philo(&data);
-	else if (start_process(&data) == -1)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	return (start_process(&data));
 }
 
 int	start_process(t_data *data)
 {
-	t_philo	*philo;
 	int		i;
 
 	i = 0;
@@ -46,34 +39,25 @@ int	start_process(t_data *data)
 		memset(&data->philo, 0, sizeof(t_philo));
 		data->philo.id = i;
 		data->pid[i] = fork();
+		if (data->pid[i] == -1)
+			end_philos(data, i);
 		if (data->pid[i] == 0)
-		{
-			return (routine(data));
-		}
+			routine(data);
 		++i;
 	}
 	start_checkers(data);
 	sem_post(&data->printf_mutex);
 	check_philos(data);
-	if (wait_process(data) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	return (wait_process(data));
 }
 
-bool	check_philos(t_data *data)
+void	check_philos(t_data *data)
 {
-	int	i;
-
-	i = 0;
-	sem_wait(&data->dead_mutex);
+	sem_wait(&data->kill_process);
 	sem_wait(&data->printf_mutex);
-	while (i < data->philos_number)
-	{
-		kill(data->pid[i], SIGKILL);
-		++i;
-	}
-	sem_post(&data->printf_mutex);
-	sem_post(&data->dead_mutex);
+	end_philos(data, data->philos_number + 2);
+	// sem_post(&data->printf_mutex); ?
+	// sem_post(&data->kill_process); ?
 }
 
 int	wait_process(t_data *data)
@@ -93,5 +77,3 @@ int	wait_process(t_data *data)
 	}
 	return (status);
 }
-
-void	

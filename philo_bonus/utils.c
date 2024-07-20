@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_1.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:27 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/19 22:04:56 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/20 20:31:04 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,18 @@ int	ft_putendl_fd(const char *s, int fd)
 	return (check);
 }
 
-int	ft_usleep(long int microseconds, t_philo *philo)
+int	ft_usleep(long int microseconds, t_data *data)
 {
 	long int	start;
 	long int	temp;
 
 	temp = 0;
-	start = get_time(philo);
+	start = get_time(data);
 	if (start == -1)
 		return (EXIT_FAILURE);
 	while ((temp - start) < microseconds)
 	{
-		temp = get_time(philo);
+		temp = get_time(data);
 		usleep(100);
 	}
 	return (EXIT_SUCCESS);
@@ -88,6 +88,6 @@ long long int	get_time(t_data *data)
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
-		return (-1);
+		exit_and_kill("gettimeofday function failed", EXIT_FAILURE, data);
 	return (time.tv_sec * 1000000 + time.tv_usec);
 }

@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:14 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/19 21:54:02 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/20 20:35:09 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,34 @@
 
 int		ft_putendl_fd(const char *s, int fd);
 
-void	print_err_and_exit(char *err, int exit_status)
-{
-	if (err != NULL)
-		ft_putendl_fd(err, STDERR_FILENO);
-	exit(exit_status);
-}
-
 int	error(char *err, int exit_status)
 {
 	if (err != NULL)
-	{
-		if (printf("%s\n", err) == -1)
-			return (EXIT_FAILURE);
-	}
+		printf("Error: %s\n", err);
 	return (exit_status);
 }
 
-void	end_philos(t_data *data, t_philo *locked_philo)
+void	end_philos(t_data *data, int philos_number)
 {
-	t_philo	*philos;
-	int		i;
+	static bool	first_call = true;
+	int	i;
 
-	i = -1;
-	philos = data->philos;
-	while (++i < data->philos_number)
+	if (first_call == false)
+		return ;
+	else
+		first_call = false;
+	i = 0;
+	while (i < philos_number)
 	{
-		if (&philos[i] != locked_philo)
-			sem_wait(&philos[i].check_dead_mutex);
+		kill(data->pid[i], SIGKILL);
+		++i;
 	}
-	i = -1;
-	while (++i < data->philos_number)
-	{
-		philos[i].dead = true;
-	}
-	i = -1;
-	while (++i < data->philos_number)
-	{
-		sem_post(&philos[i].check_dead_mutex);
-	}
+}
+
+void	exit_and_kill(char *err, int status, t_data *data)
+{
+	if (err != NULL)
+		printf("Error: %s\n", err);
+	sem_post(&data->kill_process);
+	exit(status);
 }
