@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:59:33 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 18:28:14 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/21 20:49:01 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	eat_checker(t_data *data)
 		sem_wait(data->eat_check);
 		++i;
 	}
+	sem_wait(data->printf_mutex);
 	sem_post(data->kill_process);
 	exit(EXIT_SUCCESS);
 }

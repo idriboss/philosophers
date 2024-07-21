@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 21:22:55 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 18:44:31 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/21 20:42:42 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ static void	ft_eat(t_data *data)
 	
 	take_fork(data);
 	time = get_time(data);
-	check_eat(data);
 	data->philo.last_eat = time;
 	mutex_printf("is eating", time, data);
+	check_eat(data);
 	ft_usleep(data->time_to_eat, data);
 	drop_fork(data, 2);
 }

@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:48 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 18:47:36 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/21 20:53:19 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ bool	dead_philo(t_data *data)
 	time = get_time(data);
 	if ((time - data->philo.last_eat) >= data->time_to_die)
 	{
-		// printf("------------------------------------------------\ntime: %lli\nlast eat: %lli\ntime without eat: %lli\ntime to die: %li\n------------------------------------------------\n", (time - data->start_time) / 1000, (data->philo.last_eat - data->start_time) / 1000, (time - data->philo.last_eat) / 1000, data->time_to_die);
 		printf("%lli	%i	died\n",
 			(time - data->start_time) / 1000, data->philo.id + 1);
 		sem_post(data->kill_process);
@@ -31,6 +30,7 @@ bool	dead_philo(t_data *data)
 int	take_fork(t_data *data)
 {
 	sem_wait(data->taking_forks);
+	// is_gonna_die(data);
 	sem_wait(data->forks);
 	if (mutex_printf("has taken a fork", get_time(data), data) ==
 		EXIT_FAILURE)

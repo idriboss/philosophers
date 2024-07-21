@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 19:51:23 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 03:52:53 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/21 21:13:03 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,32 @@ void	start_solo_philo(t_data *data)
 	if (data->pid[0] == -1)
 		end_philos(data, 0);
 	if (data->pid[0] == 0)
+	{
+		init_philo(data);
 		solo_philo(data);
+	}
+	sem_wait(data->kill_process);
 }
 
 void	solo_philo(t_data *data)
 {
-	long	time;
-
+	long long	time;
+	
 	time = get_time(data);
+	data->start_time = time;
 	sem_wait(data->forks);
-	mutex_printf("has taken a fork", time, data);
-	while (time < data->time_to_die)
+	printf("%lli	%i	is thinking\n",
+		(time - data->start_time) / 1000, data->philo.id + 1);
+	printf("%lli	%i	has taken a fork\n",
+		(time - data->start_time) / 1000, data->philo.id + 1);
+	while (time - data->start_time < data->time_to_die)
 	{
 		time = get_time(data);
 		usleep(100);
 	}
 	sem_post(data->forks);
-	mutex_printf("died", time, data);
+	printf("%lli	%i	died\n",
+		(time - data->start_time) / 1000, data->philo.id + 1);
+	sem_post(data->kill_process);
 	exit(EXIT_SUCCESS);
 }
