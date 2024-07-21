@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:42 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 17:42:29 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/21 18:52:26 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int argc, char **argv)
 
 	memset(&data, 0, sizeof(t_data));
 	if (argc != 5 && argc != 6)
-		exit(EXIT_FAILURE);
+		exit(error(USAGE, EXIT_FAILURE));
 	if (parse(argv, &data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	init_data(&data);
@@ -35,6 +35,7 @@ int	start_process(t_data *data)
 	sem_wait(data->printf_mutex);
 	while (i < data->philos_number)
 	{
+		// printf("[DEBUG]\n");
 		memset(&data->philo, 0, sizeof(t_philo));
 		data->philo.id = i;
 		data->pid[i] = fork();
@@ -44,20 +45,19 @@ int	start_process(t_data *data)
 		{
 			init_philo(data);
 			routine(data);
+			exit_and_kill("monitoring", EXIT_FAILURE, data);
 		}
 		++i;
 	}
 	start_checkers(data);
 	sem_post(data->printf_mutex);
-	sem_wait(data->kill_process);
-	end_philos(data, data->philos_number + 2);
+	check_philos(data);
 	return (wait_process(data));
 }
 
 void	check_philos(t_data *data)
 {
 	sem_wait(data->kill_process);
-	sem_wait(data->printf_mutex);
 	end_philos(data, data->philos_number + 2);
 	// sem_post(data->printf_mutex); ?
 	// sem_post(data->kill_process); ?

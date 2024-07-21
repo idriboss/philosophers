@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:27 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/20 20:31:04 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/21 18:47:29 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,10 @@ int	ft_usleep(long int microseconds, t_data *data)
 	while ((temp - start) < microseconds)
 	{
 		temp = get_time(data);
+		if (dead_philo(data) == true)
+		{
+			exit_and_kill(NULL, EXIT_SUCCESS, data);
+		}
 		usleep(100);
 	}
 	return (EXIT_SUCCESS);

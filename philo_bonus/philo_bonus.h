@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 07:54:59 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 17:44:58 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/21 18:54:16 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <fcntl.h>
 
 # define MALLOC_FAILED "syscall: malloc failed"
-
+# define USAGE "Usage\n'philo numer' 'time to die' 'time to eat' 'time to sleep' ('eat goal')"
 typedef struct s_philo
 {
 	long long int	last_eat;

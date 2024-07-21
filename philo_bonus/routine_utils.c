@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:48 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 17:50:35 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/21 18:47:36 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,11 @@
 bool	dead_philo(t_data *data)
 {
 	long long	time;
-	bool		*check_dead;
 
-	check_dead = &data->philo.is_dead;
-	if (*check_dead == true)
-	{
-		return (true);
-	}
 	time = get_time(data);
-	if (time - data->philo.last_eat >= data->time_to_die)
+	if ((time - data->philo.last_eat) >= data->time_to_die)
 	{
-		*check_dead = true;
+		// printf("------------------------------------------------\ntime: %lli\nlast eat: %lli\ntime without eat: %lli\ntime to die: %li\n------------------------------------------------\n", (time - data->start_time) / 1000, (data->philo.last_eat - data->start_time) / 1000, (time - data->philo.last_eat) / 1000, data->time_to_die);
 		printf("%lli	%i	died\n",
 			(time - data->start_time) / 1000, data->philo.id + 1);
 		sem_post(data->kill_process);
@@ -67,7 +61,7 @@ void	check_eat(t_data *data)
 	if (++eat_count > data->must_eat)
 		return ;
 	if (eat_count == data->must_eat)
-		sem_wait(data->eat_check);
+		sem_post(data->eat_check);
 }
 
 // void	set_last_eat(t_data *data, long long time)

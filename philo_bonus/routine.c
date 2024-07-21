@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 21:22:55 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 17:49:14 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/21 18:44:31 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ int	mutex_printf(char *str, long long time, t_data *data)
 	printf_mutex = data->printf_mutex;
 	sem_wait(printf_mutex);
 	if (dead_philo(data) == true)
+	{
+		printf("[DEBUG: DEAD]\n");
 		exit_and_kill(NULL, EXIT_SUCCESS, data);
+	}
 	if (printf("%lli	%i	%s\n", (time - data->start_time) / 1000,
 		data->philo.id + 1, str) == -1)
 	{
