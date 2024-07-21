@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 07:54:59 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 04:11:16 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/21 17:44:58 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_data
 	sem_t			*eat_check;
 	sem_t			*kill_process;
 	struct s_philo	philo;
+	long long		start_time;
 	long int		time_to_die;
 	long int		time_to_eat;
 	long int		time_to_sleep;

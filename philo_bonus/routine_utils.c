@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:48 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 04:13:35 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/21 17:50:35 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ bool	dead_philo(t_data *data)
 	if (time - data->philo.last_eat >= data->time_to_die)
 	{
 		*check_dead = true;
-		printf("%lli	%i	died\n", time, data->philo.id);
-		sem_post(data->dead_check);
+		printf("%lli	%i	died\n",
+			(time - data->start_time) / 1000, data->philo.id + 1);
+		sem_post(data->kill_process);
 		return (true);
 	}
 	return (false);
@@ -36,9 +37,6 @@ bool	dead_philo(t_data *data)
 int	take_fork(t_data *data)
 {
 	sem_wait(data->taking_forks);
-	int i;
-	sem_getvalue(data->forks, &i);
-	fprintf(stderr, "forks: %i\n", i);
 	sem_wait(data->forks);
 	if (mutex_printf("has taken a fork", get_time(data), data) ==
 		EXIT_FAILURE)
@@ -47,8 +45,6 @@ int	take_fork(t_data *data)
 	if (mutex_printf("has taken a fork", get_time(data), data) ==
 		EXIT_FAILURE)
 		return (drop_fork(data, 2), EXIT_FAILURE);
-	sem_getvalue(data->forks, &i);
-	fprintf(stderr, "forks: %i\n", i);
 	sem_post(data->taking_forks);
 	return (EXIT_SUCCESS);
 }
@@ -59,6 +55,7 @@ int	drop_fork(t_data *data, int forks)
 	{
 		if (sem_post(data->forks) != EXIT_SUCCESS)
 			exit_and_kill("function drop_fork failed", EXIT_FAILURE , data);
+		--forks;
 	}
 	return (EXIT_SUCCESS);
 }

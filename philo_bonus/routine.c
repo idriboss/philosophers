@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 21:22:55 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 04:15:03 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/21 17:49:14 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ static void	ft_eat(t_data *data);
 
 void	routine(t_data *data)
 {
-	fprintf(stderr, "[DEBUG]");
 	data->philo.last_eat = get_time(data);
 	sem_wait(data->printf_mutex);
 	sem_post(data->printf_mutex);
+	data->start_time = get_time(data);
 	while (1)
 	{
 		ft_think(data);
@@ -62,8 +62,8 @@ int	mutex_printf(char *str, long long time, t_data *data)
 	sem_wait(printf_mutex);
 	if (dead_philo(data) == true)
 		exit_and_kill(NULL, EXIT_SUCCESS, data);
-	if (printf("%lli	%i	%s\n", time / 1000000, data->philo.id + 1, str)
-		== -1)
+	if (printf("%lli	%i	%s\n", (time - data->start_time) / 1000,
+		data->philo.id + 1, str) == -1)
 	{
 		sem_post(data->dead_check);
 		exit_and_kill("printf function failed", EXIT_FAILURE, data);

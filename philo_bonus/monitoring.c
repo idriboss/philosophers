@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:42 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 04:11:38 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/21 17:42:29 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,9 @@ int	start_process(t_data *data)
 		++i;
 	}
 	start_checkers(data);
-	sem_getvalue(data->printf_mutex, &i);
-	printf("sem value: %i\n", i);
 	sem_post(data->printf_mutex);
-	sem_getvalue(data->printf_mutex, &i);
-	printf("sem value: %i\n", i);check_philos(data);
+	sem_wait(data->kill_process);
+	end_philos(data, data->philos_number + 2);
 	return (wait_process(data));
 }
 

@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:59:33 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 03:52:53 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/21 17:39:08 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	start_checkers(t_data *data)
 
 void	dead_checker(t_data *data)
 {
-	printf("[1]\n");
 	sem_wait(data->dead_check);
-	exit_and_kill(NULL, EXIT_SUCCESS, data);
+	sem_post(data->kill_process);
+	exit(EXIT_SUCCESS);
 }
 
 void	eat_checker(t_data *data)
@@ -45,9 +45,9 @@ void	eat_checker(t_data *data)
 	i = 0;
 	while (i < data->philos_number)
 	{
-		printf("[1]\n");
 		sem_wait(data->eat_check);
 		++i;
 	}
-	exit_and_kill(NULL, EXIT_SUCCESS, data);
+	sem_post(data->kill_process);
+	exit(EXIT_SUCCESS);
 }
