@@ -1,7 +1,0 @@
-{
-	"files.associations": {
-		"philo_bonus.h": "c",
-		"cstdlib": "c",
-		"types.h": "c"
-	}
-}
