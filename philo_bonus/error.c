@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:14 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/20 20:35:09 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/21 04:08:49 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,43 @@ void	end_philos(t_data *data, int philos_number)
 	}
 }
 
+static void	destroy_semaphores(t_data *data)
+{
+	sem_close(data->dead_check);
+	sem_unlink("dead_check");
+	sem_close(data->eat_check);
+	sem_unlink("eat_check");
+	sem_close(data->forks);
+	sem_unlink("forks");
+	sem_close(data->kill_process);
+	sem_unlink("kill_process");
+	sem_close(data->printf_mutex);
+	sem_unlink("printf_mutex");
+	sem_close(data->taking_forks);
+	sem_unlink("taking_forks");
+}
+
+void	free_and_exit(char *error, int status, t_data *data, bool errno)
+{
+	destroy_semaphores(data);
+	if (error != NULL)
+	{
+		if (errno == true)
+			perror(error);
+		else
+			ft_putendl_fd(error, STDERR_FILENO);
+	}
+	if (data->pid == NULL)
+		sem_post(data->kill_process);
+	else
+		free(data->pid);
+	exit (status);
+}
+
 void	exit_and_kill(char *err, int status, t_data *data)
 {
 	if (err != NULL)
 		printf("Error: %s\n", err);
-	sem_post(&data->kill_process);
+	sem_post(data->kill_process);
 	exit(status);
 }

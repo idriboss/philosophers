@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 07:54:59 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/20 20:55:00 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/21 04:11:16 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 # include <sys/time.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+
 # define MALLOC_FAILED "syscall: malloc failed"
 
 typedef struct s_philo
@@ -37,13 +40,12 @@ typedef struct s_philo
 
 typedef struct s_data
 {
-	sem_t			forks;
-	sem_t			taking_forks;
-	sem_t			printf_mutex;
-	sem_t			*printf_mutex_p;
-	sem_t			dead_check;
-	sem_t			eat_check;
-	sem_t			kill_process;
+	sem_t			*forks;
+	sem_t			*taking_forks;
+	sem_t			*printf_mutex;
+	sem_t			*dead_check;
+	sem_t			*eat_check;
+	sem_t			*kill_process;
 	struct s_philo	philo;
 	long int		time_to_die;
 	long int		time_to_eat;
@@ -55,7 +57,7 @@ typedef struct s_data
 
 long int			ft_atol(const char *str);
 int					error(char *err, int exit_status);
-int					init_data(t_data *data);
+void				init_data(t_data *data);
 int					parse(char **argv, t_data *data);
 int					ft_usleep(long int time, t_data *data);
 long long int		get_time(t_data *data);
@@ -75,5 +77,9 @@ bool				dead_philo(t_data *data);
 void				check_philos(t_data *data);
 int					wait_process(t_data *data);
 int					start_process(t_data *data);
+void				init_philo(t_data *data);
+sem_t				*open_sem(char *sem_name, t_data *data);
+sem_t				*create_sem(char *sem_name, t_data *data, int sem_value);
+void				free_and_exit(char *error, int status, t_data *data, bool errno);
 
 #endif
