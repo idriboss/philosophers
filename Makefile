@@ -83,9 +83,13 @@ re :
 	@echo ""
 	@make re -sC $(MANDATORY_DIR)
 	@echo ""
+	@echo "$(GREEN)$(MANDATORY) done ! ✅$(END)"
+	@echo ""
 	@echo "$(YELLOW)Bonus:$(END)"
 	@echo ""
 	@make re -sC $(BONUS_DIR)
+	@echo ""
+	@echo "$(GREEN)$(BONUS) done ! ✅$(END)"
 	@echo ""
 
 .PHONY: all re clean fclean
