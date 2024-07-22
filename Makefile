@@ -30,35 +30,40 @@ BONUS = philo_bonus
 
 BONUS_DIR = bonus/
 
-BONUS_FILES = 		bonus/monitoring.c	\
-					bonus/error.c		\
-					bonus/init.c		\
-					bonus/Makefile		\
-					bonus/parse.c		\
-					bonus/routine.c		\
-					bonus/utils_1.c		\
-					bonus/utils_2.c		\
-					bonus/utils_3.c		\
-					bonus/utils_4.c		\
-					bonus/philo.h		\
+BONUS_FILES = 	bonus/checkers.c	\
+				bonus/error.c	\
+				bonus/init.c	\
+				bonus/Makefile	\
+				bonus/monitoring.c	\
+				bonus/parse.c	\
+				bonus/philo_monitor.c	\
+				bonus/philo_bonus.h	\
+				bonus/routine_utils.c	\
+				bonus/routine.c	\
+				bonus/solo_philo.c	\
+				bonus/utils.c	\
 
 all	: $(MANDATORY) $(BONUS)
 
-$(MANDATORY) :
+$(MANDATORY) : $(MANDATORY_FILES)
+	@echo ""
 	@echo "$(YELLOW)Mandatory:$(END)"
 	@echo ""
 	@make -sC $(MANDATORY_DIR)
+	@echo ""
 	@echo "$(GREEN)$(MANDATORY) done ! ✅$(END)"
 	@echo ""
 
-$(BONUS) :
+$(BONUS) : $(BONUS_FILES)
 	@echo "$(YELLOW)Bonus:$(END)"
 	@echo ""
 	@make -sC $(BONUS_DIR)
+	@echo ""
 	@echo "$(GREEN)$(BONUS) done ! ✅$(END)"
 	@echo ""
 
 clean :
+	@clear
 	@echo "$(YELLOW)Mandatory:$(END)"
 	@echo ""
 	@make clean -sC $(MANDATORY_DIR)
@@ -69,6 +74,7 @@ clean :
 	@echo ""
 
 fclean :
+	@clear
 	@echo "$(YELLOW)Mandatory:$(END)"
 	@echo ""
 	@make fclean -sC $(MANDATORY_DIR)
@@ -79,6 +85,7 @@ fclean :
 	@echo ""
 
 re :
+	@clear
 	@echo "$(YELLOW)Mandatory:$(END)"
 	@echo ""
 	@make re -sC $(MANDATORY_DIR)
