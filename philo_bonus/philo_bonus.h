@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 07:54:59 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 18:54:16 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/22 01:03:00 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ void				init_philo(t_data *data);
 sem_t				*open_sem(char *sem_name, t_data *data);
 sem_t				*create_sem(char *sem_name, t_data *data, int sem_value);
 void				free_and_exit(char *error, int status, t_data *data, bool errno);
+void				kill_sig(t_data *data);
 
 #endif

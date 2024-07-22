@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:42 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 20:59:47 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/22 01:05:23 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	check_philos(t_data *data)
 	sem_wait(data->kill_process);
 	end_philos(data, data->philos_number + 2);
 	// sem_post(data->printf_mutex); ?
-	// sem_post(data->kill_process); ?
+	// kill_sig(data); ?
 }
 
 int	wait_process(t_data *data)
@@ -81,4 +81,14 @@ int	wait_process(t_data *data)
 		++i;
 	}
 	return (status);
+}
+
+void	kill_sig(t_data *data)
+{
+	static bool	is_first_call = true;
+	
+	if (is_first_call == false)
+		return ;
+	is_first_call = false;
+	sem_post(data->kill_process);
 }

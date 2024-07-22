@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:14 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 17:42:05 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/22 01:04:16 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	free_and_exit(char *error, int status, t_data *data, bool errno)
 			ft_putendl_fd(error, STDERR_FILENO);
 	}
 	if (data->pid == NULL)
-		sem_post(data->kill_process);
+		kill_sig(data);
 	else
 		free(data->pid);
 	exit (status);
@@ -75,6 +75,6 @@ void	exit_and_kill(char *err, int status, t_data *data)
 {
 	if (err != NULL)
 		printf("Error: %s\n", err);
-	sem_post(data->kill_process);
+	kill_sig(data);
 	exit(status);
 }

@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 21:22:55 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 20:42:42 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/22 00:34:13 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static void	ft_eat(t_data *data);
 
 void	routine(t_data *data)
 {
-	data->philo.last_eat = get_time(data);
 	sem_wait(data->printf_mutex);
 	sem_post(data->printf_mutex);
+	data->philo.last_eat = get_time(data);
 	data->start_time = get_time(data);
 	while (1)
 	{

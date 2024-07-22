@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 19:51:23 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 21:13:03 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/22 01:04:16 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ void	solo_philo(t_data *data)
 	sem_post(data->forks);
 	printf("%lli	%i	died\n",
 		(time - data->start_time) / 1000, data->philo.id + 1);
-	sem_post(data->kill_process);
+	kill_sig(data);
 	exit(EXIT_SUCCESS);
 }
