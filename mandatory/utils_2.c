@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 22:06:48 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/21 21:58:16 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/17 20:46:11 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	dead_check(t_philo *philo)
 
 int	take_fork(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
+	if (philo->data->philos_number % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->fork);
 		if (mutex_printf("has taken a fork", get_time(philo),

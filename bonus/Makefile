@@ -14,7 +14,7 @@ NAME = ../philo_bonus
 
 CC = cc
 
-FLAGS = -Wall -Wextra -Werror -g3
+FLAGS = -Wall -Wextra -Werror -O3
 
 LIBS = philo.h
 

@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:42 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/19 16:05:39 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/22 08:36:29 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,11 @@ int	start_threads(t_data *data)
 	if (gettimeofday(&time, NULL) == -1)
 		return (EXIT_FAILURE);
 	data->start_time = time.tv_sec * 1000000 + time.tv_usec;
-	pthread_mutex_lock(&data->printf_mutex);
 	while (i < data->philos_number)
 	{
 		pthread_create(&philo[i].thread, NULL, (void *)routine, &philo[i]);
 		++i;
 	}
-	pthread_mutex_unlock(&data->printf_mutex);
 	check_philos(data);
 	if (wait_threads(data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
@@ -82,7 +80,6 @@ bool	check_philos(t_data *data)
 				pthread_mutex_lock(&philo[i].check_dead_mutex);
 				return (end_philos(data, &philo[i]), true);
 			}
-			usleep(5);
 		}
 	}
 }

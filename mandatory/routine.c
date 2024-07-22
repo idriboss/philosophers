@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 21:22:55 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/17 20:54:05 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/22 08:36:33 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ t_philo	*routine(void *philosopher)
 	t_philo		*philo;
 
 	philo = (t_philo *)philosopher;
-	pthread_mutex_lock(&philo->data->printf_mutex);
-	pthread_mutex_unlock(&philo->data->printf_mutex);
 	if (philo->id % 2 == 1)
 		usleep(500);
 	while (philo->data->check_dead != true)

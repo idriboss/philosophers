@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:44:42 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/22 07:46:39 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/22 09:08:27 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv)
 		start_solo_philo(&data);
 	else if (start_process(&data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	free_and_exit(NULL, EXIT_SUCCESS, &data, false);
 }
 
 int	start_process(t_data *data)
@@ -34,7 +34,6 @@ int	start_process(t_data *data)
 	int		i;
 
 	i = 0;
-	sem_wait(data->printf_mutex);
 	while (i < data->philos_number)
 	{
 		memset(&data->philo, 0, sizeof(t_philo));
@@ -44,6 +43,7 @@ int	start_process(t_data *data)
 			end_philos(data, i);
 		if (data->pid[i] == 0)
 		{
+			free(data->pid);
 			data->pid = NULL;
 			routine(data);
 			exit_and_kill("monitoring", EXIT_FAILURE, data);
@@ -51,7 +51,6 @@ int	start_process(t_data *data)
 		++i;
 	}
 	start_checkers(data);
-	sem_post(data->printf_mutex);
 	check_philos(data);
 	return (wait_process(data));
 }

@@ -6,7 +6,7 @@
 /*   By: ibaby <ibaby@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 21:22:55 by ibaby             #+#    #+#             */
-/*   Updated: 2024/07/22 07:49:01 by ibaby            ###   ########.fr       */
+/*   Updated: 2024/07/22 09:08:16 by ibaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	routine(t_data *data)
 	long long	time;
 
 	data->monitor = &monitor;
-	sem_wait(data->printf_mutex);
-	sem_post(data->printf_mutex);
 	time = get_time(data);
 	data->start_time = time;
 	set_last_eat(time, data);

@@ -38,7 +38,7 @@ all	: Makefile $(LIBS) $(NAME)
 
 $(NAME) : $(OBJ_PREFIXED)
 		@$(CC) $(FLAGS) $(OBJ_PREFIXED) -o $(NAME)
-#		@echo "$(GREEN)$(NAME) done ! ✅$(END)"
+		@echo "$(GREEN)$(NAME) done ! ✅$(END)"
 
 $(OBJ_DIR)%.o : %.c
 		@mkdir -p $(OBJ_DIR)
@@ -50,10 +50,8 @@ clean :
 
 fclean : clean
 	@rm -f $(NAME)
-	@echo "$(RED)philo removed$(END)"
-	@echo ""
+	@echo "$(RED)$(NAME) removed$(END)"
 	@echo "$(GREEN)cleaned ! ✅$(END)"
-	@echo ""
 
 re : fclean all
 
