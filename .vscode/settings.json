@@ -4,7 +4,8 @@
 		"typeinfo": "c",
 		"pthread.h": "c",
 		"limits.h": "c",
-		"semaphore.h": "c"
+		"semaphore.h": "c",
+		"philo_bonus.h": "c"
 	},
 	"cSpell.words": [
 		"lstclear"
